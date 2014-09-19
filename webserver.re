@@ -2545,11 +2545,11 @@ def home(request):
     <h1>{{ message }}</h1>
 //}
 
-//emlist[views.pyでテンプレート部分に実際に文字列を埋め込む部分を再掲@<fn>{about_dict}]{
+//emlist[views.pyでテンプレート部分に実際に文字列を埋め込む部分を再掲]{
     context = RequestContext(request, {'message': 'Hello World Again!'})
 //}
 
-//footnote[about_dict][{'message': 'Hello World Again!'}の部分ですが、JavaでいうMapに相当する仕組みです（「辞書型データ構造」などと呼ばれます）。keyは"message"、valueが"Hello World Again!"です。]
+ここでは、JavaでいうMapに相当する仕組みを使っています（「辞書型データ構造」などと呼ばれます）。keyは"message"、valueが"Hello World Again!"です。
 
 そのため、次のようにhome()関数を書き換えると、テンプレート側を変更しなくても最終的なHTMLもそれに応じて変化します。
 
