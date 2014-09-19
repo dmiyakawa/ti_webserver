@@ -2553,7 +2553,7 @@ def home(request):
 
 そのため、次のようにhome()関数を書き換えると、テンプレート側を変更しなくても最終的なHTMLもそれに応じて変化します。
 
-//emlist[views.pyでテンプレート部分に実際に文字列を埋め込む部分を再掲@<fn>{about_dict}]{
+//emlist[views.pyでテンプレート部分に実際に文字列を埋め込む部分を再掲]{
     context = RequestContext(request, {'message': 'Good Evening Android!'})
 //}
 
@@ -3143,7 +3143,7 @@ curl -v -b /tmp/cookie.txt -c /tmp/cookie.txt http://127.0.0.1:8000/
 * Closing connection #0
 //}
 
-//emlist[古代文明に打ち勝ちました@<fn>{about_this_curl}]{
+//emlist[古代文明に打ち勝ちました]{
 $ curl -L -b /tmp/cookie.txt -c /tmp/cookie.txt -F "csrfmiddlewaretoken=t2t4kigdSwvfT8owzUDYoN3VUT7pKqfG" -F "message=HTTPの勲章" http://127.0.0.1:8000/submit 
 <!DOCTYPE html>
 <html>
@@ -3161,6 +3161,8 @@ $ curl -L -b /tmp/cookie.txt -c /tmp/cookie.txt -F "csrfmiddlewaretoken=t2t4kigd
   </body>
 </html>
 //}
+
+@<fn>{about_this_curl}
 
 //footnote[about_this_curl][ここだけ、ちょっと冗長すぎるため-vオプションをなくして-Lオプションをつけました。HTTPステータスコード300番代をcurlが認識してリダイレクト先を取得してくれるオプションです。telnetだとこういったことはできません]
 
