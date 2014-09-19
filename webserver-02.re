@@ -1,8 +1,8 @@
 = 自分のWebサーバを作ろう
 
 //lead{
-前節ではWebサーバ
-}
+前節ではWebサーバ云々
+//}
 
 == Python実行環境のインストール
 
@@ -10,23 +10,22 @@ Python言語をPC上で実行するためにPython実行環境をPCへインス�
 
 以下のURLから取得します。
 
- * https://www.python.org/downloads/release/python-278/
- * (https://www.python.org/ftp/python/2.7.8/python-2.7.8.amd64.msi)
+ * @<href>{https://www.python.org/downloads/release/python-278/}
+ * (@<href>{https://www.python.org/ftp/python/2.7.8/python-2.7.8.amd64.msi})
 
-//image[install-python-1][@<fn>{https://www.python.org/downloads/release/python-278/}のスクリーンショット]{
+//image[install-python-1][@<href>{https://www.python.org/downloads/release/python-278/}のスクリーンショット]{
 //}
 
 == GAE SDK
 
  * https://developers.google.com/appengine/downloads
 
-//image[install-gae-1][@<fn>{https://developers.google.com/appengine/downloads}のスクリーンショット]{
+//image[install-gae-1][@<href>{https://developers.google.com/appengine/downloads}のスクリーンショット]{
 //}
 
 == PyCharm Community Edition のインストール
 
 Pythonの場合でもEclipse同様の統合開発環境(IDE)があった方がやりやすいので、PyCharmと言うIDEをインストールします。
-
 @<fn>{about_pydev}
 
 //footnote[about_pydev][Eclipse上でPython開発環境を実現する方法としてPyDevというプラグインが存在しますが、現在環境にインストールされているJavaのバージョンが古いためそのままでは利用できません。Javaのバージョンを7にすれば動作するはずですが、Android開発環境を壊すリスクとなるため、演習では採用しません。]
@@ -91,18 +90,18 @@ Project name は、"HelloWorld"とします。
 
 画面右側に以下を入力します。
 
-//emlist[hello_world][helloworld.py]{
-// -*- coding: utf-8 -*-
-import webapp2
+//list[hello_world][helloworld.py]{
+ // -*- coding: utf-8 -*-
+ import webapp2
 
-class MainPage(webapp2.RequestHandler):
-    def get(self):
-        self.response.headers["Content-Type"] = "text/plain"
-        self.response.write("Hello, World!")
+ class MainPage(webapp2.RequestHandler):
+     def get(self):
+         self.response.headers["Content-Type"] = "text/plain"
+         self.response.write("Hello, World!")
 
-application = webapp2.WSGIApplication([
-    ("/", MainPage),
-], debug=True)
+ application = webapp2.WSGIApplication([
+     ("/", MainPage),
+ ], debug=True)
 //}
 
 一つ注意点があります。
@@ -113,7 +112,7 @@ Python言語の機能などについては次節にまとめますので、と�
 
 またファイルを作ります。今度は"app.yaml"を作成します。
 
-//emlist[app_yaml][app.yaml]{
+//list[app_yaml][app.yaml]{
 application: your-app-id
 version: 1
 runtime: python27
@@ -152,7 +151,7 @@ handlers:
 Hello Worldでは味気がないので、別の文字列を出力してみましょう。
 @<list>{hello_world}を以下のように変えます。
 
-//emlist[hello_world_ja][例えばこのように変える]{
+//list[hello_world_ja][例えばこのように変える]{
         self.response.write("こんにちは、あたち！")
 //}
 
