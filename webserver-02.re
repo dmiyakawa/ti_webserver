@@ -128,7 +128,7 @@ handlers:
 
 //cmd{
 > ./dev_appserver.py HelloWorld
-}
+//}
 
 すると、画面に Starting server "default" running at: http://localhost:8080 といった文字列が出てきます。
 このURLをコピーして、ブラウザで表示させてください。
