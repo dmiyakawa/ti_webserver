@@ -1,11 +1,4 @@
 specs: 
   - pdf
-  - name: pdf-release
-    rule_name: pdf
-    config_file: config_release.yml
-    catalog_file: catalog_release.yml
-  - epub
-  - text
-  - idgxml
-  - mobi
   - html
+  - text
