@@ -16,11 +16,143 @@ Python言語をPC上で実行するためにPython実行環境をPCへインス�
 //image[install-python-1][@<href>{https://www.python.org/downloads/release/python-278/}のスクリーンショット]{
 //}
 
-== GAE SDK
+//image[install-python-add-path-1][「Add python.exe to Path」をクリックし、表示された2つの選択肢のうち"Will be installed on local hard drive"を選ぶ]{
+//}
+
+//image[install-python-add-path-2][×印がなくなったら「Next」]{
+//}
+
+=== GAE SDK
+
+Google App Engineでは多くの言語とフレームワークをサポートしています。
+本節では全体を通じて Google App Engine のPython版、
+その中でも特にwebapp2というフレームワークを用います。
 
  * https://developers.google.com/appengine/downloads
 
-//image[install-gae-1][@<href>{https://developers.google.com/appengine/downloads}のスクリーンショット]{
+//image[install-gae-1][「Google App Engine SDK for Python」をクリックして]{
+//}
+
+//image[install-gae-2][適切なOSのインストーラを選ぶ]{
+//}
+
+ダウンロード後、インストーラを起動し、Python 2.7が認識されていることを
+確認した上で、Nextボタンをクリックします。
+
+//image[install-gae-python-checked][]{
+//}
+
+//image[install-gae-tos][]{
+//}
+
+3つの全てにチェックが入っていることを確認します。
+
+//image[install-gae-all-checked][]{
+//}
+
+最後にInstallボタンをクリックします。
+
+//image[install-gae-do-install][]{
+//}
+
+Install中、ダウンロードしたソフトウェアを信用するかどうかを
+確認するシステムダイアログが表示されることがあります。
+このとき、「確認済みの発行元」が「Google Inc」となっていることを
+確認した上で、「はい」を押します。
+
+インストールが成功したら、「Run Launcher」ボタンを押した後、
+「Finish」ボタンを押します。
+
+//image[install-gae-done][]{
+//}
+
+「Google App Engine Launcher」というWindowが起動すれば、
+GAE SDKのインストールに成功しています。
+
+//image[gae-installed][]{
+//}
+
+===[column] ユーザフォルダに日本語が含まれる場合
+
+このコラムの作業が必要なのは「C:\ユーザー\(ユーザ名)」
+の「ユーザ名」部分が日本語になっている場合だけです。
+
+そのような例を@<img>{japanese_user_name}に示します。
+この現象は、特にWindows 8で日本語名のユーザを作成した際に発生します。
+
+//image[japanese_user_name][ユーザ名が「大輔」で日本語になっている]{
+//}
+
+このケースに当てはまる場合、さらに以下の作業を行なってください。
+
+ * 「C:\GoogleAppEngine」のような日本語を含まないフォルダを作成する。
+ * TMP環境変数に上記のアドレスを指定する。
+ ** 環境変数はJavaのPATHを指定した時と同じ方法で設定できます。
+ * プロジェクトを上記フォルダに作る。
+
+この作業が必要なのは、日本語を含むフォルダの扱いを
+Google App Engineが正しく処理できないためです。
+
+この作業を行わずにGAEの各種作業を行おうとすると、
+以下のような問題が発生します。
+
+ * テスト用のsqlite DBが作成できないという旨のエラーが発生する。
+ * GAEが動作しなくなる。
+ * GAEが起動しなくなる。
+
+最後の挙動に至った場合はユーザフォルダ配下の「Google」フォルダから
+GAE Launcherが作成する一時ファイルを全て削除すると、復帰します。
+ただし本コラムの作業を行わない限り、問題は改善しません。
+
+
+===[/column]
+
+== GAEでローカルサーバを起動する
+== Hello World サーバを作る
+
+Hello Worldと表示するだけのサーバを作成しましょう。
+
+Google App Engine Launcherで「File >> Create New Application」を選択します。
+
+ * Application Name を「helloworld」等に設定します。
+ ** ここでは一部の文字、例えば半角大文字は使用できません。
+ * Parent Directory を「デスクトップ」等に設定します。
+ ** 日本語ユーザである場合は、コラムの注意を参考にして設定します。
+
+//image[create-helloworld][]{
+//}
+
+作成できたらそのプロジェクトを選択し「Run」をクリックします。
+
+//image[run-helloworld][]{
+//}
+
+成功すると、プロジェクトの左にある小さなアイコンが
+緑色の「再生ボタン」風になります。
+
+//image[running-helloworld][]{
+//}
+
+この状態でブラウザから「http://localhost:8080」を開きます。
+
+"Hello world!"と表示されたら、成功です。
+
+//image[seeing-helloworld][]{
+//}
+
+URLについて説明しましょう。
+
+ * http はどのようにサーバに接続するかを決めたもの(スキームと呼ばれる)。
+ * localhostは「自分自身」で、つまりPCのこと。
+ * TCPポートの8080番でサーバを作成している、という意味になる。
+
+8000番で、このプロジェクトの管理用Webページを開くこともできます。
+
+このサーバは現在「実行中」になっています。
+止めるにはGoogle App Engine Launcherから「Stop」ボタンを押します。
+「再生」ボタンが黒い丸印になれば、止まったことになります。
+
+//image[stopped-helloworld][]{
 //}
 
 == PyCharm Community Edition のインストール
@@ -30,55 +162,22 @@ Pythonの場合でもEclipse同様の統合開発環境(IDE)があった方が�
 
 //footnote[about_pydev][Eclipse上でPython開発環境を実現する方法としてPyDevというプラグインが存在しますが、現在環境にインストールされているJavaのバージョンが古いためそのままでは利用できません。Javaのバージョンを7にすれば動作するはずですが、Android開発環境を壊すリスクとなるため、演習では採用しません。]
 
-===[column] PyCharm Professional Edition、IntelliJ IDEA, そして Android Studio
+商用のソフトウェアということもあってEclipseより好んで使うユーザが
+いるほどなのですが、Eclipseと全く一致した使い勝手ではありませんので
+注意してください。
+以下に何点か、すぐに使い勝手を改善出来るヒントを示します。
 
-PyCharm には有料のProfessional Editionと
-無料で利用できるCommunity Editionの2種類があります。
+ * 「File >> Settings >> Keymap」でKeymapsを「Eclipse」に変更すると、Eclipse風になります。ただし全てではありません。@<img>{eclipse_keymap}
+ * 「File >> Settings >> (左画面IDE Settingsの) Editor >> Editor Tabs >> Mark modified tabs with asterisk」のチェックを入れておくと、Eclipseの時と同様保存されていないファイルのタブに*(スター、もしくはアスタリスク)が付きます。@<img>{asterisk}
 
-本文の説明は全てCommunity Editionに基づいて行います。
-どちらを用いても本質的な結果は変わりませんが、
-Professional Editionの方が後述する通り、
-本演習の範囲でも効率的な開発を行うことができます。
+//image[eclipse_keymap][]{
+//}
 
-Professional Editionは30日間評価のための利用が出来るので、
-あくまで評価する目的で、そちらを選択しても構いません。
-ただし30日後に同様の機能を継続して利用したい場合、購入する必要があります。
-(購入するかの決断は、本コラムの最後まで待ってください！)
+//image[asterisk][]{
+//}
 
-本演習でProfessional Editionを利用する最大のメリットはおそらく、
-GAEと開発環境のより緊密な連携です。
-PyCharm Professiona Editionでは、
-ターミナルからコマンドを実行せずにGAEのローカルサーバを
-立ちあげたり、Googleへアップロードしたりすることができます。
-詳細な比較には、以下のページを参照してください。
-@<href>{http://www.jetbrains.com/pycharm/features/editions_comparison_matrix.html}
 
-さて、PyCharmを開発しているJetBRAINSはAndroid用の開発環境を、
-Googleとの共同で無料で提供しています。
-この開発環境はAndroid Studioと呼ばれ、今後のAndroid開発では標準的な
-開発環境になっていくことが期待されています。
-
-実はこのJetBRAINS社は、IntelliJ IDEAと呼ばれる有料の統合開発環境
-を販売しており、この環境を購入すると、
-PyCharm Professional EditionやAndroid Studio、
-更にはJavaScriptやRubyといった他のプログラミング言語の開発環境も
-プラグインとしてついてきます。
-（その分だけ「お高い」開発環境です）
-
-もしPythonとPyCharm Professional Editionにも興味をもち、
-Androidアプリとの連携を考えているようであれば、
-独立した開発環境であるPyCharmではなく、
-Android Studioの機能も利用できるIntelliJ IDEAを選択するメリットが
-生まれてきます。
-貪欲に他のプログラミング言語も遊ぶということであればますますです。
-
-商売とは熾烈なものです。
-
-===[/column]
-
-== Hello World サーバを作る
-
-まずHello Worldと表示するだけのサーバを起動しましょう。
+=== (deprecated): PyCharmでHello Worldサーバを作る
 
 「File > New Project」 を選択します。
 
@@ -141,10 +240,66 @@ handlers:
 なお、「Starting admin server at: http://localhost:8000」と言った文字列で、
 ポート番号が異なるURLがもうひとつ表示されているはずです。
 こちらは「管理用」のサーバです。
-興味があれば覗いてみましょう。
 
 //image[gae-result-2][管理画面]{
 //}
+
+
+=== HelloWorldプロジェクトをPyCharmから編集する
+
+
+
+===[column] PyCharm Professional Edition、IntelliJ IDEA, そして Android Studio
+
+PyCharm には有料のProfessional Editionと
+無料で利用できるCommunity Editionの2種類があります。
+
+本文の説明は全てCommunity Editionに基づいて行います。
+どちらを用いても結果は変わりませんが、
+Professional Editionの方が、本演習の範囲でも効率的な開発を行うことができます。
+
+Professional Editionは30日間評価のための利用が出来るので、
+あくまで評価する目的で、Professional Editionの方を選択しても構いません。
+足りなくなる機能はありませんので、本文の指示通りに演習を進められなくなる
+ことはないでしょう。
+
+ただし、30日後に同様の機能を継続して利用したい場合、
+Professional Editionはご自身で購入する必要があります。
+
+本演習でProfessional Editionを利用する最大のメリットはおそらく、
+GAEと開発環境のより緊密な連携です。
+PyCharm Professiona Editionでは、
+ターミナルからコマンドを実行せずにGAEのローカルサーバを
+立ちあげたり、Googleへアップロードしたりすることができます。
+詳細な比較には、以下のページを参照してください。
+@<href>{http://www.jetbrains.com/pycharm/features/editions_comparison_matrix.html}
+
+さて、PyCharmを開発しているJetBRAINS社は、
+Android用の開発環境もGoogleとの共同で提供しています。
+実はこれはEclipseと同様無料で利用できます。
+PyCharmのような梯子はずしはありません。
+
+この開発環境はAndroid Studioと呼ばれ、
+今後のAndroid開発では標準的な開発環境に
+なっていくことが予想されています。
+
+JetBRAINS社は、IntelliJ IDEAと呼ばれる有料の統合開発環境を販売しており、
+この環境を購入すると、
+PyCharm Professional EditionやAndroid Studio、
+更にはJavaScriptやRubyといった他のプログラミング言語の開発環境も
+プラグインとしてついてきます。
+ただし、その分だけ「お高い」開発環境です。
+しっかりと、商売です。
+
+もしPythonとPyCharm Professional Editionにも興味をもち、
+さらにAndroidアプリとの連携を考えている今回のようなケースであれば、
+独立した開発環境であるPyCharmではなく、
+Android Studioの機能も利用できるIntelliJ IDEAを選択するメリットが
+あるかもしれません。
+
+===[/column]
+
+
 
 === メッセージを変える
 
@@ -193,11 +348,41 @@ Google Developer Consoleでアプリを作成
 
 === アップロード
 
-@<href>{https://console.developers.google.com/}
+以下のURLをタイプし、講義に用いるGoogleアカウントでログインしてください。
 
-自動生成されるプロジェクトIDを確認します。
+@<href>{https://appengine.google.com/}
 
-//image[gae-project-id][プロジェクトID]{
+Google App Engineの利用規約を確認し、
+"A accept these terms"をチェックした上でSubmitを押します。
+
+//image[gae-tos][]{
+//}
+
+"Create Application"をクリックします。
+
+//image[gae-web-console][]{
+//}
+
+Application Identifierとして「世界中で唯一」の名前を一つ設定します。
+「ti-(受講生番号)」といったものでも構いませんし、別のものでも構いません。
+ただし他の人が利用していた場合は選択できませんので、
+右側の"Check Availability"ボタンで利用できるかを確認します。
+
+その上で最下段の"Create Application"ボタンを押します。
+
+//image[gae-ti-dmiyakawa][]{
+//}
+
+成功すると次のような画面がでます。
+
+//image[gae-project-creation-successful][]{
+//}
+
+"Application Registered Successfully"と出たら、
+app.yamlの"application"の右側の文字列を自分が選択したものに変えます。
+
+//emlist[]{
+application: (ここを先ほど選択したIDに変更する)
 //}
 
 //cmd{
@@ -208,11 +393,34 @@ Google Developer Consoleでアプリを作成
 Googleアカウントでのログインを要求されます。
 
 
-以下筆者注:
+なお、本項の説明は2014年09月21日時点のものです。
+GoogleのWebコンソールは終始変化しており、
+執筆時点でも複数のプロジェクト作成方法が存在します。
+
+万が一本項による作成方法を採れない場合、
+以下のURLから「プロジェクトID」を取得して先に進んでください。
+これがapp.yamlのapplicationに入ります。
+
+@<href>{https://console.developers.google.com/}
+
+//image[gae-project-id][プロジェクトID]{
+//}
+
+===[column] 筆者注
 
 @<href>{https://developers.google.com/appengine/docs/python/gettingstartedpython27/uploading}
-に基づく。
-ただし説明が古い。
+に基づく。ただし説明が古い。
+
+GAEのコンソールは今後近いうちに消滅する可能性が高いが、
+特にDatastoreの内容を削除する機能が現時点で新コンソールに存在せず、
+GAEでの開発の視点からすると明らかに破綻しているため、
+敢えて旧コンソールを強行するという手に出ている。
+
+特に次期以降にこの操作系の一部は書き換えになる可能性が高く、
+最悪の場合GAEのサービス終了もありえるだろう。
+そのくらい、現状のGAEはGCEの影響で混乱している。
+
+===[/column]
 
 === デバッグ方法
 
@@ -395,6 +603,8 @@ indexes:
   properties:
   - name: date
     direction: desc
+  - name: date
+    direction: asc
 //}
 
 まだコースを登録していないので、JSONは以下のような「空」のコース一覧を
@@ -418,7 +628,8 @@ import webapp2
 from datetime import datetime, timedelta
 from json import dumps
 
-DEFAULT_COURSE_LIST_NAME = 'default_course_list'
+def course_list_key():
+    return ndb.Key('CourseList', 'default_course_list')
 
 class Course(ndb.Model):
     date = ndb.DateTimeProperty()
@@ -428,7 +639,7 @@ class Course(ndb.Model):
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        course_model_list = Course.query().order(-Course.date)
+        course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
         output = self.request.get('output', 'html')
         if output == 'html':
             lst = [u'<html><body>']
@@ -507,7 +718,7 @@ class Course(ndb.Model):
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        course_model_list = Course.query(ancestor=course_list_key()).order(-Course.date)
+        course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
         output = self.request.get('output', 'html')
         if output == 'html':
             lst = [u'<html><body>']
@@ -590,7 +801,7 @@ class Course(ndb.Model):
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        course_model_list = Course.query(ancestor=course_list_key()).order(-Course.date)
+        course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
         output = self.request.get('output', 'html')
         if output == 'html':
             lst = [u'<html><body>']
@@ -680,6 +891,45 @@ GAE側で関連するデータベースのインデックスを作成するの�
 //image[need_index_error_2][]{
 //}
 
+== セキュリティについて一言
+
+ここでHTMLタグを講師名等に入れるとどうなるでしょうか。
+試しに<script>alert("Hello");</script>などと入れてみましょう。
+
+//image[injection-1][]{
+//}
+
+こんなのがでます。
+
+//image[injection-2][]{
+//}
+
+これはいわゆる「クロスサイト・スクリプティング(XSS)」と
+呼ばれる立派なWebサイト攻撃方法の一つをWebサーバが受けたことを意味します。
+そして同時に攻撃が「成功」していることも意味します。
+(攻撃を受けるところまでは日常と考えてください。
+攻撃が「成功」するのはそうではありません。)
+
+今回は「Hello」としか出て来ませんが、大手のWebアプリケーションで
+このようなバグ(「脆弱性」と呼ばれます)は、
+しばしばパスワード漏洩やありとあらゆる問題の温床になります。
+
+例えば、今回の講義が秘密の講義表を持っていたとしましょう。
+後述するログインによって秘密を守っていたかと思いきや、
+今回のような脆弱性がWebアプリケーションの「どこかに」あったとします。
+すると、そこに今回のように任意の「プログラム」をHTMLに
+第三者が埋め込めてしまえると、秘密の講義表はそのプログラムによって
+覗き見られてしまいます。
+Webサーバからすれば、認証情報を持っているブラウザが講義表を覗いていることに
+なるので講義表を見せない理由がありません。
+悪意のあるプログラムは、講義表をまた別のサーバに送信すれば良いわけです。
+
+これ以外にも、Webサーバを実装する際にはちょっとした油断で
+全ユーザの全情報を奪われる「脆弱性」を簡単に作りこめてしまいます。
+
+これは規模は異なるものの、Android側でも事情が似通っています。
+油断すると、例えば「知られたくない個人情報が駄々漏れ」となったりするのです。
+そういった諸々のお話は「セキュリティ」の章で詳しく学びます。
 
 
 === 関連URL
@@ -693,9 +943,96 @@ Datastoreで指定できる型は以下の通り。
 
 @<href>{http://webapp-improved.appspot.com/}
 
+== 演習 (オプショナル) HTMLの描画にテンプレートとCSSを使う
+
+本演習の範囲では「見栄え」を意識することはありませんでした。
+HTMLとして表示されればよかったわけです。
+
+これをもう少しわかり易く管理し、さらにスタイルシートを使って装飾をしてみます。
+
+app.yamlに以下を追加します。
+
+//emlist[app.yamlに以下を追加]{
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+//}
+
+index.htmlを新たに作成し、HelloWorld/ディレクトリに置きます。
+
+//emlist[index.html]{
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>講義表 with bootstrap</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div style="text-align: center; padding-top: 40px;">
+        <h1>講義表ページ</h1>
+        <h2>総講義数: {{ course_count }}</h2>
+        {% if course_model_list %}
+        <table class="table" align="center"
+               style="width: 300px;">
+          <thead>
+            <tr><td>日付</td><td>講師</td><td>詳細</td></tr>
+          </thead>
+          <tbody>
+            {% for course_model in course_model_list %}
+            <tr>
+              <td>{{ course_model.date.strftime('%Y-%m-%d') }}</td>
+              <td>{{ course_model.title }}</td>
+              <td>{{ course_model.teacher }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+        <div>
+          <a href="/create">Create</a>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
+//}
+
+//emlist["html"]{
+        if output == 'html':
+            course_count = course_model_list.count()
+            template_values = {'course_count': course_count,
+                               'course_model_list': course_model_list}
+            template = JINJA_ENVIRONMENT.get_template('index.html')
+            self.response.write(template.render(template_values))
+        else:
+//}
+
+これで見栄えがだいぶ変わります。
+また、前述した「クロスサイト・スクリプティング」の脆弱性も
+自動的になくなります。
+なぜならテンプレートエンジンは与えられた文字列をチェックし、
+自動的に「<」や「>」といった危なそうな文字を、
+安全な文字に置き換えているからです。
+
+さらにこのテンプレートではCSSテンプレートを使っているため、
+ボタン等の見栄えもちょっと変わります。
+
+演習: 講義作成画面もテンプレートを使って見栄えを変えてみましょう。
 
 
-== ログインを実装する。
+参考:
+@<href>{https://developers.google.com/appengine/docs/python/gettingstartedpython27/templates}
+
+
+== (オプショナル) ログインを実装する。
 
 Googleアカウントによる簡単なログインを実装してみましょう。
 
@@ -737,33 +1074,6 @@ APIの詳細は以下にあります。
 @<href>{https://developers.google.com/appengine/docs/python/users/userobjects}
 
 
-== 演習 (オプショナル) HTMLの描画にテンプレートとCSSを使う
-
-本演習の範囲では「見栄え」を意識することはありませんでした。
-HTMLとして表示されればよかったわけです。
-
-これをもう少しわかり易く管理し、さらにスタイルシートを使って装飾をしてみます。
-
-app.yamlに以下を追加します。
-
-//emlist[app.yamlに以下を追加]{
-libraries:
-- name: webapp2
-  version: latest
-- name: jinja2
-  version: latest
-//}
-
-index.htmlを新たに作成し、HelloWorld/ディレクトリに置きます。
-
-//emlist[index.html]{
-
-//}
-
-
-
-
-@<href>{https://developers.google.com/appengine/docs/python/gettingstartedpython27/templates}
 
 == 演習 (オプショナル): Puttyを使って応答をデバッグする。
 
