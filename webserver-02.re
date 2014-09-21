@@ -155,6 +155,49 @@ URLについて説明しましょう。
 //image[stopped-helloworld][]{
 //}
 
+=== メッセージを変える
+
+Hello Worldでは味気がないので、別の文字列を出力してみましょう。
+@<list>{hello_world}を以下のように変えます。
+
+//list[hello_world_ja][例えばこのように変える]{
+        self.response.write("こんにちは、あたち！")
+//}
+
+=== 隣の人に見えるようにする
+
+http://localhost:8080 というのは、言ってみれば「特殊な」URLで、
+他人からは見ることができません。
+
+14-1-2「IPアドレスとは？」であったipconfig(Mac等ではifconfig)コマンド
+を用いて自身のIPアドレスを確認します。
+注意点として127.0.0.1といったIPアドレスではないもうひとつのIPアドレスを
+探してください。
+
+//cmd{
+> ipconfig
+...
+10.0.90.181
+...
+//}
+
+
+このようになっていたら、GAE Launcherの「Edit >> Application Settings..」
+を開き、「Extra Command Line Flags」に「--host=10.0.90.181」と
+追加します。IPアドレス部分は状況に応じて変更してください。
+
+//image[specify-hostname][]{
+//}
+
+このあとに起動すると、「http://localhost:8080」でそのWebページは
+表示されなくなり、代わりにIPアドレスを指定したURLだけで表示できます。
+さらに、そのIPアドレスを隣の人に教えれば、
+隣の人のPCからそのWebページを見られるようになります。
+
+本節のこれ以降の説明では、ローカルサーバは引き続きlocalhostを使って、
+つまり自分だけが見る目的で起動することにします。
+
+
 == PyCharm Community Edition のインストール
 
 Pythonの場合でもEclipse同様の統合開発環境(IDE)があった方がやりやすいので、PyCharmと言うIDEをインストールします。
@@ -300,44 +343,6 @@ Android Studioの機能も利用できるIntelliJ IDEAを選択するメリッ�
 ===[/column]
 
 
-
-=== メッセージを変える
-
-Hello Worldでは味気がないので、別の文字列を出力してみましょう。
-@<list>{hello_world}を以下のように変えます。
-
-//list[hello_world_ja][例えばこのように変える]{
-        self.response.write("こんにちは、あたち！")
-//}
-
-=== 隣の人に見えるようにする
-
-http://localhost:8000 というのは、言ってみれば「特殊な」URLで、
-他人からは見ることができません。
-
-14-1-2「IPアドレスとは？」であったipconfig(Mac等ではifconfig)コマンド
-を用いて自身のIPアドレスを確認します。
-注意点として127.0.0.1といったIPアドレスではないもうひとつのIPアドレスを
-探してください。
-
-//cmd{
-> ipconfig
-...
-10.0.90.181
-...
-//}
-
-
-このようになっていたら、
-
-//cmd{
-> ./dev_appserver --host (ここに自分のIPアドレスをいれる) HelloWorld
-//}
-
-これで、隣の人にサーバを見せることができます。
-
-本節のこれ以降の開発では、ローカルサーバは引き続きlocalhostを使って、
-つまり自分だけが見る目的で起動することにします。
 
 
 == 公開する
