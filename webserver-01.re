@@ -10,14 +10,10 @@
 
  * Webサーバとは？
  * サーバはなぜ重要？
- * Google App Engine(GAE)の紹介
- * 実際にWebサーバをGAEで起動してみる
 
-この節で出てくるキーワード一覧
+この節で出てくるキーワード
 
  * Webサーバ
- * Python
- * Google App Engine (GAE)
  * DNS
  * HTTP
 

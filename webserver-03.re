@@ -183,6 +183,42 @@ World
 !!!!!
 //}
 
+最後に、文字列の中に数字や他の文字列を埋め込む方法を説明します。
+
+最も単純なのは「{}」を文字列に埋め込んだ上でformat()
+メソッドを呼ぶ方法です。
+本講義の範囲では以下の方法を覚えるだけで事足りるでしょう。
+
+//cmd{
+>>> print('Hello {} and {}!!'.format(20, 10))
+Hello 20 and 10!!
+//}
+
+なお、Pythonでは文字列型と数値型は「+」演算子で結合出来ません。
+以下の方法は利用することが出来ませんので注意してください。
+
+//cmd{
+>>> 'Hello ' + 20 + ' and ' + 10 + '!!'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: cannot concatenate 'str' and 'int' objects
+//}
+
+「{}」という書式は非常に多彩な機能をもっています。
+もし興味がある場合には、以下のドキュメント等を見て、
+必要に応じて使ってみましょう。
+
+@<href>{http://docs.python.jp/2/library/string.html#formatstrings}
+
+なお、この方法を、Pythonにおける「書式指定文字列」と呼びます。
+(検索するときに重要です)。
+
+これとよく似た機能として「文字列フォーマット操作」というものもあります。
+こちらは、C言語のprintf()やJavaのSystem.out.printf()に
+影響を受けたと思われる書式ですが、
+現在は書式指定文字列を用いる方が望ましいとされています。
+
+
 === Python文字列での日本語の扱い
 
 Pythonの文字列についてしばしば混乱を誘うのが、

@@ -1,14 +1,40 @@
 = 自分のWebサーバを作ろう
 
 //lead{
-前節ではWebサーバ云々
+本節では実際にPythonとGoogle App Engineを用いて、
+Androidアプリと連携するWebサーバを開発します。
 //}
+
+== 本節で学ぶこと
+
+ * Google App Engine (GAE)を用いた開発環境の準備
+ * ローカルサーバの起動
+ * 本番サーバへのデプロイ
+ * 機能の追加
+
+この節で出てくるキーワード
+
+ * Python
+ * Google App Engine (GAE)
+ * HTTP GET, HTTP POST
+
+本節では、
+「ユーティリティによる実践」で使用した
+シラバスアプリで利用できるデータを返す
+Webサーバを作成します。
+ブラウザを用いて、シラバスデータを
+動的に変更するためのフォーム入力画面も、
+実装します。
+
 
 == Python実行環境のインストール
 
-Python言語をPC上で実行するためにPython実行環境をPCへインストールします
+まず、Python言語をPC上で利用するために、
+Python実行環境をインストールします。
+インストールするバージョンはPython 2.7.8です。
 
-以下のURLから取得します。
+以下のURLからWindows向けPythonインストーラを取得します。
+注意点として、3で始まるバージョンはここではインストールしないでください。
 
  * @<href>{https://www.python.org/downloads/release/python-278/}
  * (@<href>{https://www.python.org/ftp/python/2.7.8/python-2.7.8.amd64.msi})
@@ -22,15 +48,18 @@ Python言語をPC上で実行するためにPython実行環境をPCへインス�
 //image[install-python-add-path-2][×印がなくなったら「Next」]{
 //}
 
-=== GAE SDK
+確認のため、プロンプトで「Python」と入力して
+Pythonの対話型環境が起動するかを確認してください。
+対話型環境は次節のPython言語についての学習時に使うことが出来ます。
+
+=== Google App Engine SDK
 
 Google App Engineでは多くの言語とフレームワークをサポートしています。
-本節では全体を通じて Google App Engine のPython版、
-その中でも特にwebapp2というフレームワークを用います。
+本節ではその中でも、GAE のPython版を採用します。
 
  * https://developers.google.com/appengine/downloads
 
-//image[install-gae-1][「Google App Engine SDK for Python」をクリックして]{
+//image[install-gae-1][「Google App Engine SDK for Python」をクリックします]{
 //}
 
 //image[install-gae-2][適切なOSのインストーラを選ぶ]{
@@ -108,7 +137,6 @@ GAE Launcherが作成する一時ファイルを全て削除すると、復帰�
 ===[/column]
 
 == GAEでローカルサーバを起動する
-== Hello World サーバを作る
 
 Hello Worldと表示するだけのサーバを作成しましょう。
 
@@ -140,7 +168,7 @@ Google App Engine Launcherで「File >> Create New Application」を選択しま
 //image[seeing-helloworld][]{
 //}
 
-URLについて説明しましょう。
+ここで、入力したURLについて説明しましょう。
 
  * http はどのようにサーバに接続するかを決めたもの(スキームと呼ばれる)。
  * localhostは「自分自身」で、つまりPCのこと。
@@ -150,60 +178,30 @@ URLについて説明しましょう。
 
 このサーバは現在「実行中」になっています。
 止めるにはGoogle App Engine Launcherから「Stop」ボタンを押します。
-「再生」ボタンが黒い丸印になれば、止まったことになります。
+「再生」ボタンが黒い丸印になれば、サーバプロセスが停止します。
 
 //image[stopped-helloworld][]{
 //}
 
-=== メッセージを変える
-
-Hello Worldでは味気がないので、別の文字列を出力してみましょう。
-@<list>{hello_world}を以下のように変えます。
-
-//list[hello_world_ja][例えばこのように変える]{
-        self.response.write("こんにちは、あたち！")
-//}
-
-=== 隣の人に見えるようにする
-
-http://localhost:8080 というのは、言ってみれば「特殊な」URLで、
-他人からは見ることができません。
-
-14-1-2「IPアドレスとは？」であったipconfig(Mac等ではifconfig)コマンド
-を用いて自身のIPアドレスを確認します。
-注意点として127.0.0.1といったIPアドレスではないもうひとつのIPアドレスを
-探してください。
-
-//cmd{
-> ipconfig
-...
-10.0.90.181
-...
-//}
-
-
-このようになっていたら、GAE Launcherの「Edit >> Application Settings..」
-を開き、「Extra Command Line Flags」に「--host=10.0.90.181」と
-追加します。IPアドレス部分は状況に応じて変更してください。
-
-//image[specify-hostname][]{
-//}
-
-このあとに起動すると、「http://localhost:8080」でそのWebページは
-表示されなくなり、代わりにIPアドレスを指定したURLだけで表示できます。
-さらに、そのIPアドレスを隣の人に教えれば、
-隣の人のPCからそのWebページを見られるようになります。
-
-本節のこれ以降の説明では、ローカルサーバは引き続きlocalhostを使って、
-つまり自分だけが見る目的で起動することにします。
-
 
 == PyCharm Community Edition のインストール
 
-Pythonの場合でもEclipse同様の統合開発環境(IDE)があった方がやりやすいので、PyCharmと言うIDEをインストールします。
+
+PythonでもEclipseのような統合開発環境(IDE)を利用できると便利です。
+本項ではPyCharmと言う商用IDEの無料版である
+PyCharm Community Editionをインストールします。
 @<fn>{about_pydev}
 
-//footnote[about_pydev][Eclipse上でPython開発環境を実現する方法としてPyDevというプラグインが存在しますが、現在環境にインストールされているJavaのバージョンが古いためそのままでは利用できません。Javaのバージョンを7にすれば動作するはずですが、Android開発環境を壊すリスクとなるため、演習では採用しません。]
+//footnote[about_pydev][EclipseをPython開発環境として利用する方法として、PyDevというEclipseプラグインが存在します。しかし、本講義において環境にインストールされているJavaのバージョンは若干古いため、そのままでは利用できません。Javaのバージョンを7にすればPyDevの動作要件を満たしますが、Android開発環境を壊してしまう可能性もあるため、演習では採用しません。]
+
+@<href>{http://www.jetbrains.com/pycharm/download/}をブラウザで開きます。
+
+#@# TODO
+#@# //image[pycharm-select-page][]{
+#@# //}
+
+デスクトップにアイコンを置いておくと便利です。
+
 
 商用のソフトウェアということもあってEclipseより好んで使うユーザが
 いるほどなのですが、Eclipseと全く一致した使い勝手ではありませんので
@@ -219,151 +217,97 @@ Pythonの場合でもEclipse同様の統合開発環境(IDE)があった方が�
 //image[asterisk][]{
 //}
 
+=== PyCharmでプロジェクトをインポートする
 
-=== (deprecated): PyCharmでHello Worldサーバを作る
+#@# TODO
 
-「File > New Project」 を選択します。
 
-Project name は、"HelloWorld"とします。
+=== メッセージを変える
 
-出来上がった"HelloWorld"プロジェクトを右クリックし、"New > File"
+Hello Worldでは味気がないので、別の文字列を出力してみましょう。
+作成したプロジェクトの"Hello world!"部分を、
+PyCharmのPythonエディタで変更します。
 
-ファイル名を helloworld.py とします
 
-画面右側に以下を入力します。
+PyCharmの画面左、「helloworld」となっている部分をクリックし、
+展開したファイル一覧を確認してください。
 
-//list[hello_world][helloworld.py]{
- // -*- coding: utf-8 -*-
- import webapp2
+ * app.yaml
+ * favicon.ico
+ * index.yaml
+ * main.py
 
- class MainPage(webapp2.RequestHandler):
-     def get(self):
-         self.response.headers["Content-Type"] = "text/plain"
-         self.response.write("Hello, World!")
+このうち、main.pyがWebアプリケーション本体のソースコード、
+Androidアプリ開発でAndroidManifest.xmlに相当する
+設定ファイルがapp.yamlとindex.yaml、
+favicon.icoはブラウザ上で各タブに表示される
+アイコンのためのファイルです。
+GAEの初期プロジェクトは
+Androidと比べるとシンプルです。
 
- application = webapp2.WSGIApplication([
-     ("/.*", MainPage),
- ], debug=True)
+main.pyを変更することで表示する文字を変更できます。
+main.pyのPythonコード部分は実質以下のとおりです。
+なお、Pythonではコメントは1行コメントのみ存在し、
+プログラム中で「#」以降がコメントになります。
+(文字列の中は除きます)
+
+//list[all_source][GAEを用いたWebサーバの全文]{
+import webbapp2
+
+class MainHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write('Hello world!')
+
+app = webapp2.WSGIApplication([
+    ('/', MainHandler)
+], debug=True)
 //}
 
-一つ注意点があります。
-各行冒頭の空白(インデント)を正しく入力してください。
-Python言語ではインデントがJavaで言う中括弧({と})の役割を果たします。
-Python言語の機能などについては次節にまとめますので、とりあえず
-ここではそのまま入力してください。
+Pythonの詳細は次節に回しますが、
+現段階で確実に把握しておきたいのは以下のことです。
 
-またファイルを作ります。今度は"app.yaml"を作成します。
+ * Pythonではインデントに意味があります。
+ ** ブロックの開始と終了を示す中括弧は存在しません。
+ * def function_name(args) という表現で関数(メソッド)を宣言します
+ * webapp2.WSGIApplication()に渡されるリストは「WebサーバのどのパスをどのHandlerが処理するかを示したものです」
+ * get() は HTTP GETを、post()はHTTP POSTを処理する関数になります。
 
-//list[app_yaml][app.yaml]{
-application: your-app-id
-version: 1
-runtime: python27
-api_version: 1
-threadsafe: true
+さて、単に「Hello world!」という文字列を変更したいだけなら、
+Pythonの深い部分を知る必要はありません。
+@<list>{hello_world}の行を変更すればよさそうです。
 
-handlers:
-- url: /.*
-  script: helloworld.application
+//list[hello_world][このような行が見つかる]{
+        self.response.write("Hello world!")
 //}
 
-2つのファイルを保存したら、以下を実行します。
+演習: 変更してファイルを保存後、
+GAE Launcherで再びローカルサーバを起動して変更を確認しよう。
 
-//cmd{
-> ./dev_appserver.py HelloWorld
-//}
+== Googleの本番サーバにアップロードし、世界にアプリケーションを公開する
 
-すると、画面に Starting server "default" running at: http://localhost:8080 といった文字列が出てきます。
-このURLをコピーして、ブラウザで表示させてください。
+Google App Engineの便利なところは、
+この時点ですでに世界へWebアプリケーションを公開する準備が
+5割以上できていることです。
 
-//image[gae-result-1][結果]{
-//}
+ここから行うことを大まかに述べると、以下のようになります。
 
-晴れて自分のWebサーバが出来ました。
+ * Googleにログインします。
+ * Google内で一意のアプリケーション用IDを取得します。
+ * アプリケーションIDを設定して、本番サーバにアップロードします。
 
-なお、「Starting admin server at: http://localhost:8000」と言った文字列で、
-ポート番号が異なるURLがもうひとつ表示されているはずです。
-こちらは「管理用」のサーバです。
+=== Google App Engine の開発者サイトでアプリケーションIDを取得する。
 
-//image[gae-result-2][管理画面]{
-//}
-
-
-=== HelloWorldプロジェクトをPyCharmから編集する
-
-
-
-===[column] PyCharm Professional Edition、IntelliJ IDEA, そして Android Studio
-
-PyCharm には有料のProfessional Editionと
-無料で利用できるCommunity Editionの2種類があります。
-
-本文の説明は全てCommunity Editionに基づいて行います。
-どちらを用いても結果は変わりませんが、
-Professional Editionの方が、本演習の範囲でも効率的な開発を行うことができます。
-
-Professional Editionは30日間評価のための利用が出来るので、
-あくまで評価する目的で、Professional Editionの方を選択しても構いません。
-足りなくなる機能はありませんので、本文の指示通りに演習を進められなくなる
-ことはないでしょう。
-
-ただし、30日後に同様の機能を継続して利用したい場合、
-Professional Editionはご自身で購入する必要があります。
-
-本演習でProfessional Editionを利用する最大のメリットはおそらく、
-GAEと開発環境のより緊密な連携です。
-PyCharm Professiona Editionでは、
-ターミナルからコマンドを実行せずにGAEのローカルサーバを
-立ちあげたり、Googleへアップロードしたりすることができます。
-詳細な比較には、以下のページを参照してください。
-@<href>{http://www.jetbrains.com/pycharm/features/editions_comparison_matrix.html}
-
-さて、PyCharmを開発しているJetBRAINS社は、
-Android用の開発環境もGoogleとの共同で提供しています。
-実はこれはEclipseと同様無料で利用できます。
-PyCharmのような梯子はずしはありません。
-
-この開発環境はAndroid Studioと呼ばれ、
-今後のAndroid開発では標準的な開発環境に
-なっていくことが予想されています。
-
-JetBRAINS社は、IntelliJ IDEAと呼ばれる有料の統合開発環境を販売しており、
-この環境を購入すると、
-PyCharm Professional EditionやAndroid Studio、
-更にはJavaScriptやRubyといった他のプログラミング言語の開発環境も
-プラグインとしてついてきます。
-ただし、その分だけ「お高い」開発環境です。
-しっかりと、商売です。
-
-もしPythonとPyCharm Professional Editionにも興味をもち、
-さらにAndroidアプリとの連携を考えている今回のようなケースであれば、
-独立した開発環境であるPyCharmではなく、
-Android Studioの機能も利用できるIntelliJ IDEAを選択するメリットが
-あるかもしれません。
-
-===[/column]
-
-
-
-
-== 公開する
-
-=== Google App Engine の開発者サイト
-
-Google Developer Consoleでアプリを作成
-
-=== アップロード
-
-以下のURLをタイプし、講義に用いるGoogleアカウントでログインしてください。
+以下のURLをタイプし、講義に用いるGoogleアカウントでログインします。
 
 @<href>{https://appengine.google.com/}
 
-Google App Engineの利用規約を確認し、
+Google App Engineの利用規約が表示された場合は内容を確認し、
 "A accept these terms"をチェックした上でSubmitを押します。
 
 //image[gae-tos][]{
 //}
 
-"Create Application"をクリックします。
+次画面で、"Create Application"をクリックします。
 
 //image[gae-web-console][]{
 //}
@@ -384,19 +328,33 @@ Application Identifierとして「世界中で唯一」の名前を一つ設定�
 //}
 
 "Application Registered Successfully"と出たら、
-app.yamlの"application"の右側の文字列を自分が選択したものに変えます。
+PyCharm内でapp.yamlを開き、
+最初の行の"application"の右側の文字列を自分が選択したものに変えます。
 
 //emlist[]{
 application: (ここを先ほど選択したIDに変更する)
 //}
 
-//cmd{
-> ./appcfg.py update --oauth2 HelloWorld
-//}
+アプリケーション固有パスワード
 
-これにより、OSに設定されたデフォルトのブラウザが起動して
-Googleアカウントでのログインを要求されます。
+@<href>{https://security.google.com/settings/security/apppasswords}
 
+最下段の「端末を選択」で「その他(名前を入力)」を選び
+「Google App Engine」と入力し、「生成を押します」
+
+4文字が空白で4つ区切りになった、合計で16文字のパスワードが
+表示されますので、これをDeployで入力します。
+
+ログで「Deployment successful」と出たら成功です。
+
+
+「@<href>{http://(自分が生成したID).appspot.com/}」へアクセスしてみましょう。
+
+隣の人にアプリケーションIDを教えてもらい、
+他の人のWebサーバを見せてもらってもよいでしょう。
+
+
+以下注意:
 
 なお、本項の説明は2014年09月21日時点のものです。
 GoogleのWebコンソールは終始変化しており、
@@ -410,6 +368,62 @@ GoogleのWebコンソールは終始変化しており、
 
 //image[gae-project-id][プロジェクトID]{
 //}
+
+=== (オプショナル) Wi-Fi内でだけ公開する
+
+ここまでで、二通りのWebサーバの起動方法を
+学びました。
+
+一つは「ローカルサーバ」を立てる方法です。
+これは開発途中では便利です。
+しかし、@<href>{http://localhost:8080}というURLは
+他人からは見ることができません。
+
+一方、「本番サーバ」にアップロードして
+Googleにホスティングしてもらう方法ですと、
+@<href>{http://(自分が生成したID).appspot.com/}という
+URLが世界に公開されてしまいます。
+
+本講義中には、「世界中に公開」とは行かないまでも、
+同じWi-Fiネットワーク内の他の人にサーバを見せたい、
+というケースもあるかもしれません。
+
+まず、14-1-2「IPアドレスとは？」であったipconfig(Mac等ではifconfig)コマンド
+を用いて自身のIPアドレスを確認します。
+注意点として127.0.0.1といったIPアドレスではないもうひとつのIPアドレスを
+探してください。
+
+//cmd{
+> ipconfig
+...
+10.0.90.181
+...
+//}
+
+このようになっていたら、GAE Launcherの「Edit >> Application Settings..」
+を開き、「Extra Command Line Flags」に「--host=10.0.90.181」と
+追加します。IPアドレス部分は状況に応じて変更してください。
+
+//image[specify-hostname][]{
+//}
+
+このあとに起動すると、@<href>{http://(自分のIPアドレス):8080/}
+でローカルサーバを起動します。
+「http://localhost:8080」ではWebページは
+表示されなくなり、代わりにIPアドレスを指定したURLだけで表示できます。
+こののURLを隣の人に教えれば、
+隣の人のPCからそのWebページを見られるようになります。
+この方法は、世界中にサーバを公開せずに近くの人と
+挙動を確認しあうのに使えます。
+後述するAndroidアプリとも、Wi-Fiネットワークの範囲内であれば、通信を行えます。
+
+本節のこれ以降の説明では、ローカルサーバは引き続きlocalhostを使って、
+つまり自分だけが見る目的で起動することにします。
+
+厳密には、この方法は「Wi-Fi環境のみに公開」という意味ではありませんが、
+本講義ではそのように利用できます。
+
+
 
 ===[column] 筆者注
 
@@ -427,12 +441,19 @@ GAEでの開発の視点からすると明らかに破綻しているため、
 
 ===[/column]
 
+=== 本番サーバの状況を確認する
+
+GAE Launcherには「Dashboard」というボタンもあります。
+このボタンはアプリケーションIDを適切に指定した時にのみ、
+本番サーバにおける、そのWebアプリ向けの管理者画面を
+ブラウザに表示してくれます。
+
+#@# TODO: 画面
+
 === デバッグ方法
 
 Pythonではloggingというモジュールを用いることで、
 AndroidにおけるLogCatと似たようなログ機構を頼ることができます。
-
-@<href>{https://developers.google.com/appengine/articles/logging}
 
 ローカルサーバの標準のログレベルはINFOです。
 DEBUGレベルまで表示する場合は以下のようにします。
@@ -444,41 +465,37 @@ DEBUGレベルまで表示する場合は以下のようにします。
 > ./dev_appserver.py --dev_appserver_log_level=debug HelloWorld
 //}
 
-本番サーバでは「計算処理 >> App Engine >> ログ」からloggingの結果を見ることができます。
+#@# ログを表示する。
 
-//image[logging_on_gdc][本番サーバのログ]{
-//}
-
-
-
-== JSONを静的ファイルとしてGAEサーバで配布する。
-
-静的ファイルを送ります
-
-@<href>{https://dl.dropboxusercontent.com/u/1088314/tech_institute/2014/syllabus.json}
-
-
-参考: @<href>{https://developers.google.com/appengine/docs/python/gettingstartedpython27/staticfiles}
-
-@<href>{http://model-shelter-709.appspot.com/static/syllabus.json}
-
-「ユーティリティによる実践」で使用したシラバスアプリのURL部分を
-自分のサーバのURLに変更してみましょう。
-
-JSONの中身を変更し、アプリを再起動した際に項目が変わっていれば、
-ひとまず成功です。
-
-ただしこの方法では、アップロードしたデータを変更することが出来ません。
-
-ここから、
-Datastoreと呼ばれるGAE特有の仕組みを用いてデータを保存できるように
-改造していきます。
+@<href>{https://developers.google.com/appengine/articles/logging}
 
 
 == JSONを動的に生成して返してみる。
 
-Webサーバに「動的に」データを入れます。
-その前に、どのようなプロトコルで通信されているかを理解しましょう。
+
+「ユーティリティによる実践」で、
+JSON形式のデータをAndroidアプリで利用する方法を学びました。
+
+その時利用したJSON取得用URLは
+@<href>{https://dl.dropboxusercontent.com/u/1088314/tech_institute/2014/syllabus.json}
+でした。
+
+これはDropbox@<fn>{about_dropbox}と呼ばれるファイル共有サービス
+上で講師が公開している静的ファイルです。
+
+//footnote[about_dropbox][https://www.dropbox.com/]
+
+本節以降では、このURLに対応するダウンロード用のWebサーバと、
+そのサーバが返すデータを変更するためのWebページを実装します。
+
+このときまず確認したいのは、
+「どのような方法でAndroidアプリとWebサーバが通信するか」です。
+このルールがアプリとサーバ側で違っていると、通信は出来ません。
+
+今回は単にJSONデータの中身を見るだけで事足りますので、見てみましょう。
+@<fn>{complicated_data}
+
+//footnote[complicated_data][今回はアプリとサーバを一人で実装しますので何も問題がありませんが、二人で実装する場合には事前に調整が必要です。これを「プロトコル」などと呼ぶことがあります。]
 
 //emlist[JSONフォーマットを整形したもの、一部]{
 {
@@ -519,16 +536,25 @@ Webサーバに「動的に」データを入れます。
 }
 //}
 
-シラバスアプリでは、この中から一部の情報を取り出して画面に表示します。
-今回は以下の4つの情報をサーバから提供してみることにします。
+これに加えてシラバスアプリの実装を見てみてください。
+アプリでは、JSONで指定されたこれらのデータの中から、
+ごく一部の情報を取り出して画面に表示します。
+例えば、JSONでは補助講師の名前が複数得られる形式になっていますが、
+以下の4つの情報だけをアプリでは使っています。
 
  * date 講義が行われる日付
  * title その講義のタイトル
  * teacher 講師の名前
  * detail 講義の詳細 (サンプルのJSONファイルでは空でした)
 
-これらを講義数分、上記のJSON形式で返せば良いわけです。
-データをプログラムに埋め込んで返答させてみましょう。
+というわけで、今回のWebサーバでは単純化のため、
+これらのデータだけを扱うことにします。
+具体的には、講義数分だけこの4種類のデータを複数持つ
+JSON形式で返せば良いわけです。
+
+ひとまず、固定のデータをプログラムが
+自動的に生成するようにし、それをクライアント側に
+返答するWebサーバに変更してみます。
 
 //emlist[こーど]{
 # 以上省略
@@ -551,21 +577,51 @@ class MainPage(webapp2.RequestHandler):
 # 以下省略
 //}
 
-ローカル環境でデバッグ等を終えたら、アップロードします。
+ここでは、サーバが返すデータの種類と文字コードをContent-Typeで明示した上で、
+Python言語で生成したデータ構造を(json.dumps()関数で)JSONの文字列
+として返しています。
 
-シラバスアプリのMainActivity.javaのsyllabusUrlを自分のサーバのURLに変更します。
+演習 (おまけ): これまでに説明したログの仕組みを用いて、
+JSON形式にする前のPythonのデータ構造をログに出力してみよう。
+さらに時間があれば、Pythonのpprintモジュール
+(@<href>{http://docs.python.jp/2/library/pprint.html})
+を用いて「人間が読みやすい」ログを出力してみよう。
+
+== シラバスアプリに読み込ませる
+
+まず、ローカルサーバからJSON形式と思われる
+データがダウンロードできることをブラウザで確認してください。
+
+大丈夫そうだと思ったら、作成したサーバアプリケーションをアップロードします。
+そして、本番サーバのURLで同様にデータを取得できることを確認します。
+
+ここまでで、世界に公開された状態で、講義表データを返すWebサーバが
+とりあえず完成しています。
+早速、シラバスアプリでこのデータを表示させてみましょう。
+
+ここからはGoogle App Engine LauncherとPyCharmに加えて
+Eclipseも使用して作業を行います。
+
+シラバスアプリがEclipseに存在することを前提に説明をしますので、
+もし準備ができていない場合には、先にそちらを完成させるか、
+GitHubから最新のプロジェクトをダウンロードし、
+Eclipseにインポートして準備してください。
+
+#@# 念の為、次節で、シラバスアプリをインポートする方法を説明します。
+
+シラバスアプリのMainActivity.javaのsyllabusUrlを自分の本番サーバのURLに変更します。
 
 //emlist[しらばす]{
 private static final String syllabusUrl = "http://model-shelter-709.appspot.com";
 //}
 
+この変更を行った上で、これまでと同様にAndroidアプリをビルド・実行します。
+
 もしサーバとAndroidアプリの通信がうまくいけば、
-サーバが自動生成した講義が配信されます。
+サーバが自動生成した講義が配信されるようになるはずです。
 
 //image[custom_syllabus][こうなる]{
 //}
-
-
 いつまでも「読込中」のSpinnerが表示され続ける場合には、
 サーバのログ画面ととAndroidアプリのLogCatをよく見て問題を解決してください。
 
@@ -579,17 +635,23 @@ LogCatで問題が報告されているはずです。
 
 == 講義表を保存・変更出来るようにする
 
-ここまでの方法ではまだデータを保存できていません。しましょう。
+ここまでで、Webサーバ上で生成したJSONデータを
+Androidアプリに与えることに成功しています。
+
+しかし、このデータは「自動的に」生成されたもので、
+まだ自分が意図したものではありません。
+今回はさらに、新しく講義データを追加し、
+それをサーバに保存した上で表示させる機能を作ることにします。
 
 JSONを返すだけのサーバであれば良いのですが、
 保存するためには他の画面も必要です。
+
+今回は以下の4つのシナリオに対応することにします。
 
  * JSONを表示するページ
  * Webサーバのトップページ (HTML)
  * 講義の新規登録
  * 講義の編集、削除
-
-画面としてはこれらを実装します。
 
 この背後では、先ほどの4つのデータをGAEに保存しておく必要があります。
 
@@ -598,8 +660,12 @@ JSONを返すだけのサーバであれば良いのですが、
  * teacher 講師の名前
  * detail 講義の詳細 (サンプルのJSONファイルでは空でした)
 
+この4つのデータは、言ってみれば「1つのオブジェクト」
+に保存されていて欲しいのは明らかです。
+
 先にこのデータ構造をサーバに実装することにしましょう。
 
+#@# TODO: ここにからのデータのあれを入れる。
 
 //emlist[index.yaml (app.yamlではないので注意)]{
 indexes:
