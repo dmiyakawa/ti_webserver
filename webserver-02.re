@@ -200,15 +200,6 @@ Google App Engine Launcherで「File >> Create New Application」を選択しま
 //image[seeing-helloworld][]{
 //}
 
-== 何が起きているの？
-
-ここで、入力したURLについて説明しましょう。
-
- * http はどのようにサーバに接続するかを決めたもの(スキームと呼ばれる)。
- * localhostは「自分自身」で、つまりPCのこと。
- ** ここでは「ローカルサーバ」と呼ぶことにします。
- * TCPポートの8080番でサーバを作成している、という意味になる。
-
 8000番で、このプロジェクトの管理用Webページを開くこともできます。
 
 このサーバは現在「実行中」の状態です。
@@ -219,11 +210,27 @@ Google App Engine Launcherで「File >> Create New Application」を選択しま
 //}
 
 
+入力したURLについて説明します。
+
+ * http はどのようにサーバに接続するかを決めたもの(スキームと呼ばれる)。
+ * localhostは「自分自身」で、つまりPCのこと。
+ ** ここでは「ローカルサーバ」と呼ぶことにします。
+ * TCPポートは「ネットワーク」で説明済みです。
+ ** TCPポートの8080番でサーバを作成している、という意味になります。
+
+この"Hello world!"を表示するまでに、
+プログラムを1行も書く必要がありませんでしたが、ちょっと物足りなすぎです。
+
+Pythonでプログラムを書いてサーバを拡張するために、
+Pythonの開発環境をインストールしましょう。
+@<fn>{ok_with_hidemaru}
+
+//footnote[ok_with_hidemaru][他に『秀丸』等の高機能なエディタがあればそれを利用しても構いません。ただしWindows付属のメモ帳では文字コードの関係で期待したとおりに動作しないかもしれません。]
+
 == PyCharm Community Edition のインストール
 
 PythonでもEclipseのような統合開発環境(IDE)を利用できると便利です。
-本項ではPyCharmと言う商用IDEの無料版である
-PyCharm Community Editionをインストールします。
+ここでは、PyCharmと言う商用IDEの無料版「PyCharm Community Edition」をインストールします。
 @<fn>{about_pydev}
 
 //footnote[about_pydev][EclipseをPython開発環境として利用する方法として、PyDevというEclipseプラグインが存在します。しかし、本講義において環境にインストールされているJavaのバージョンは若干古いため、そのままでは利用できません。Javaのバージョンを7にすればPyDevの動作要件を満たしますが、Android開発環境を壊してしまう可能性もあるため、演習では採用しません。]
@@ -232,13 +239,12 @@ PyCharm Community Editionをインストールします。
 右側の「Community Edition」を選択してダウンロードし、
 インストーラを実行し、指示に従います。
 
-
 //image[pycharm-select-page][]{
 //}
 
-なお、途中で表示される「Create Desktop shortcut」
-(デスクトップにショートカットを作成する)のチェックボックスをつけておくと、
-後々便利です
+途中で表示される「Create Desktop shortcut」
+(デスクトップにショートカットを作成する)
+のチェックボックスをつけておくと良いでしょう。
 
 //image[pycharm-installer-create-desktop-shortcut][]{
 //}
@@ -290,10 +296,8 @@ PyCharm上で編集してみましょう。
 外して、「Close」ボタンを押します。
 
 
-商用のソフトウェアということもあってEclipseより好んで使うユーザが
-いるほどなのですが、Eclipseと全く一致した使い勝手ではありませんので
-注意してください。
-以下に何点か、すぐに使い勝手を改善出来るヒントを示します。
+よく似た見た目をしていますが、Eclipseと全く一致した使い勝手ではありませんので注意してください。
+以下に、すぐに使い勝手を改善出来るヒントを示します。
 
  * 起動時にkeymapを変更していない場合「File >> Settings >> Keymap」でKeymapsを「Eclipse」に変更すると、Eclipse風になります。@<img>{eclipse_keymap}ただし全てがEclipseと同じになるわけではありません。
  * 「File >> Settings >> (左画面IDE Settingsの) Editor >> Editor Tabs >> Mark modified tabs with asterisk」のチェックを入れておくと、Eclipseの時と同様保存されていないファイルのタブに*(スター、もしくはアスタリスク)が付きます。@<img>{asterisk}
@@ -305,12 +309,16 @@ PyCharm上で編集してみましょう。
 //}
 
 
-=== メッセージを変える
+Pythonでプログラミングする準備が整いました。
+
+プログラミングに自信があればこのままWebサーバの実装を進めても構いませんし、
+ここで一旦、次節に進み、Pythonの基礎を学んでも構いません。
+
+=== Webサーバのメッセージを変える
 
 Hello Worldでは味気がないので、別の文字列を出力してみましょう。
 作成したプロジェクトの"Hello world!"部分を、
 PyCharmのPythonエディタで変更します。
-
 
 PyCharmの画面左、「helloworld」となっている部分をクリックし、
 展開したファイル一覧を確認してください。
@@ -320,19 +328,18 @@ PyCharmの画面左、「helloworld」となっている部分をクリックし
  * index.yaml
  * main.py
 
-このうち、main.pyがWebアプリケーション本体のソースコード、
-Androidアプリ開発でAndroidManifest.xmlに相当する
-設定ファイルがapp.yamlとindex.yaml、
-favicon.icoはブラウザ上で各タブに表示される
-アイコンのためのファイルです。
-GAEの初期プロジェクトは
-Androidと比べるとシンプルです。
+GAEの初期プロジェクトはAndroidと比べるとシンプルです。
+それぞれのファイルの意味を説明しましょう。
 
-main.pyを変更することで表示する文字を変更できます。
-main.pyのPythonコード部分は実質以下のとおりです。
-なお、Pythonではコメントは1行コメントのみ存在し、
-プログラム中で「#」以降がコメントになります。
-(文字列の中は除きます)
+ * main.pyはWebアプリケーション本体のソースコードです。
+ * app.yamlとindex.yamlは、Androidで言えばAndroidManifest.xmlに相当するような、アプリの設定ファイルです。
+ * favicon.icoはブラウザ上で各タブに表示されるアイコンのためのファイルです。
+
+favicon.icoは、今回扱いません。
+主に他の3つのファイルを編集することで機能を追加していきます。
+
+main.pyのPythonコードは実質だけです。
+これだけで"Hello world!"を表示するWebサーバになります。
 
 //list[all_source][GAEを用いたWebサーバの全文]{
 import webbapp2
@@ -346,16 +353,16 @@ app = webapp2.WSGIApplication([
 ], debug=True)
 //}
 
-Pythonの詳細は次節に回しますが、
-現段階で確実に把握しておきたいのは以下のことです。
+現段階で把握しておきたいのは以下のことです。
 
  * Pythonではインデントに意味があります。
  ** ブロックの開始と終了を示す中括弧は存在しません。
  * def function_name(args) という表現で関数(メソッド)を宣言します
  * webapp2.WSGIApplication()に渡されるリストは「WebサーバのどのパスをどのHandlerが処理するかを示したものです」
  * get() は HTTP GETを、post()はHTTP POSTを処理する関数になります。
+ ** 今回、GETはデータを取得するのに使い、POSTはデータを追加・更新するのに使います。
 
-さて、単に「Hello world!」という文字列を変更したいだけなら、
+単に「Hello world!」という文字列を変更したいだけなら、
 Pythonの深い部分を知る必要はありません。
 @<list>{hello_world}の行を変更すればよさそうです。
 
@@ -365,9 +372,6 @@ Pythonの深い部分を知る必要はありません。
 
 helloworld.pyの内容を変更してファイルを保存後、
 GAE Launcherで再びローカルサーバを起動して変更を確認してみましょう。
-
-== PyCharmで覚えておくと便利なこと
-
 
 == Googleの本番サーバにアップロードし、世界にアプリケーションを公開する
 
@@ -431,13 +435,16 @@ application: (ここを先ほど選択したIDに変更する)
 ログで「Deployment successful」と出たら成功です。
 
 
-「@<href>{http://(自分が生成したID).appspot.com/}」へアクセスしてみましょう。
+「@<href>{https://(自分が生成したID).appspot.com/}」へアクセスしてみましょう。
+なお、URLの冒頭は「http」ではなく「https」とすることをおすすめします。
+理由は座学パートで説明しています。
 
 隣の人にアプリケーションIDを教えてもらい、
 他の人のWebサーバを見せてもらってもよいでしょう。
 
+=== 参考
 
-以下注意:
+(原稿に入れない可能性あり)
 
 なお、本項の説明は2014年09月21日時点のものです。
 GoogleのWebコンソールは終始変化しており、
@@ -447,17 +454,18 @@ GoogleのWebコンソールは終始変化しており、
 以下のURLから「プロジェクトID」を取得して先に進んでください。
 これがapp.yamlのapplicationに入ります。
 
+この場合、アプリケーションIDに相当する文字列は
+自動生成されるため、
+自分で自由に選ぶことは出来ません。
+
 @<href>{https://console.developers.google.com/}
 
 //image[gae-project-id][プロジェクトID]{
 //}
 
-
 === (オプショナル) Wi-Fi内でだけ公開する
 
-
-ここまでで、二通りのWebサーバの起動方法を
-学びました。
+ここまでで、二通りのWebサーバの起動方法を学びました。
 
 一つは「ローカルサーバ」を立てる方法です。
 これは開発途中では便利です。
@@ -518,29 +526,6 @@ GAE Launcherには「Dashboard」というボタンもあります。
 
 //image[gae-dashboard][]{
 //}
-
-
-=== デバッグ方法
-
-Pythonではloggingというモジュールを用いることで、
-AndroidにおけるLogCatと似たようなログ機構を頼ることができます。
-
-ローカルサーバの標準のログレベルはINFOです。
-DEBUGレベルまで表示する場合は以下のようにします。
-ただし、GAE側のデバッグログも表示されるため、
-かなり見づらくなります。
-今回はlogging.info()等を使うのが良いでしょう。
-
-//cmd{
-> ./dev_appserver.py --dev_appserver_log_level=debug HelloWorld
-//}
-
-//image[gae-logging][]{
-//}
-
-
-
-@<href>{https://developers.google.com/appengine/articles/logging}
 
 
 == シラバスアプリのデータ構造を確認しよう
@@ -658,6 +643,21 @@ Python言語で生成したデータ構造を(json.dumps()関数で)JSONの文�
 
 ログにはJSONフォーマットする前のデータが表示されます。
 
+=== デバッグ方法
+
+Pythonではloggingというモジュールを用いることで、
+AndroidにおけるLogCatと似たようなログ機構を頼ることができます。
+@<fn>{logging_has_no_tag}
+
+//footnote[logging_has_no_tag][ただし、LogCatの「TAG」の仕組みはPythonのlogging関数には存在しません。ログのグループ化は別の方法で実現するのですが、本稿では割愛します。]
+
+ローカルサーバの標準のログレベルはINFOです。
+今回のサーバ実装ではlogging.info()だけ使うのがシンプルで良いでしょう。
+
+先ほどのコードで、JSONデータをクライアントに送信する直前に
+logging.info()を使って結果をログに表示しているので、
+特にローカルサーバのログで確認してみてください。
+
 == 生成されたJSONデータをブラウザで確認する。
 
 ローカルサーバ(@<href>{http://localhost:8080})から、
@@ -679,10 +679,7 @@ JSON形式のデータがダウンロードできることを、
 == シラバスアプリにサーバのJSONデータを読み込ませる
 
 早速、シラバスアプリでこのデータを表示させてみましょう。
-
-ここからはGoogle App Engine LauncherとPyCharmに加えて、
-Androidアプリ開発環境としてEclipseも使用して作業を行います。
-混乱しませんように。
+ここで一旦、Eclipseで作業を行います。混乱しませんように。
 
 シラバスアプリがEclipseに存在することを前提に説明をします。
 もし準備ができていない場合には、先にそちらを完成させるか、
