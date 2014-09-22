@@ -257,6 +257,9 @@ PyCharm Community Editionをインストールします。
 「Keymap scheme」を適切に変更します。
 なお、この設定は後から変更可能です。
 
+//image[pycharm-first-configuration][]{
+//}
+
 最後に@<img>{pycharm-welcome}のような画面が出れば
 PyCharmの起動が成功しています。
 
