@@ -1,7 +1,6 @@
 PREDEF:
 
 CHAPS:
-  - webserver-01.re
   - webserver-02.re
   - webserver-03.re
 
