@@ -24,28 +24,31 @@
 サーバに保存されたJSONデータをVolleyというライブラリで
 非同期にダウンロードし、その内容をListViewに表示しました。
 
-本節ではこのシラバスアプリで利用できるJSONデータを
-アプリに返すWebサーバを作成します。
+#@# TODO: シラバスアプリのスクリーンショット
 
-ブラウザを用いて、シラバスデータを動的に変更するためのフォーム入力画面も、
-実装します。
+本節ではこのシラバスアプリで利用できるJSONデータを
+Androidアプリに返すWebアプリケーションを、
+Google App Engineを用いて作成します。
 
 == Google App Engineとは？
 
-Google App Engine(GAE)はGoogleが提供する
-Webアプリケーションフレームワークの一つです。
+Google App Engine(略してApp EngineもしくはGAE)は、
+Googleが提供するWebアプリケーションフレームワークの一つです。
 
-本節では、Webサーバを実装する環境として、
-Google App Engine(略してApp Engine、もしくはGAE)の
-Python言語による実装を用います。
-GAEにはJavaによる実装もありますが、
-準備に時間を費やしてしまうため、本講義では採用を見送ります。
+GAEでは現在Java, Python, PHP, Go言語の4種類を使うことが出来ます。
+本節ではこの中でPython言語による実装を用います。
+@<fn>{why_not_java}
 
-PythonはJavaやC言語のようなプログラミング言語の一つです。
-サーバ側の実装やプログラミング教育で豊富な実績があります。
-@<fn>{python_for_education_in_gigazine}
+//footnote[why_not_java][言語が共通であることからJavaによる実装を採用するという選択肢も検討しましたが、本講義の環境で利用する上では準備に逆に多くの時間を費やしてしまうため、本講義では採用を見送ります。]
 
-//footnote[python_for_education_in_gigazine][「Pythonが大学の入門用プログラミング言語として人気を集めていると判明」 by Gigazine 2014年7月15日 @<href>{http://gigazine.net/news/20140715-python-most-popular-language/}]
+PythonはJavaと同様世界的にもよく利用されているプログラミング言語です。
+プログラミング言語の人気を図る
+PYPL(PopularitY of Programming Language Index)や
+TIOBE Programming Community Indexといった指標で上位を占め、
+マサチューセッツ工科大学(MIT)や
+カリフォルニア大学バークレー校といった大学で
+コンピュータ・サイエンスの入門コースで採用されるなど、
+プログラミング教育でも豊富な実績があります。
 
 ここからはWebアプリの開発環境を準備しつつ、
 PC上でサーバ(ローカルサーバ)を起動する方法と、
@@ -1182,47 +1185,6 @@ index.htmlを新たに作成し、HelloWorld/ディレクトリに置きます�
 @<href>{https://developers.google.com/appengine/docs/python/gettingstartedpython27/templates}
 
 
-== (オプショナル) ログインを実装する。
-
-Googleアカウントによる簡単なログインを実装してみましょう。
-
-//list[helloworld_with_login][ログインを実装する]{
-# -*- coding: utf-8 -*-
-from google.appengine.api import users
-import webapp2
-
-class MainPage(webapp2.RequestHandler):
-
-    def get(self):
-        # Checks for active Google account session
-        user = users.get_current_user()
-
-        if user:
-            self.response.headers['Content-Type'] = 'text/plain'
-            self.response.write('こんにちは, ' + user.nickname())
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
-
-
-application = webapp2.WSGIApplication([
-    ('/', MainPage),
-], debug=True)
-//}
-
-ローカルサーバでとりあえず挙動を試してみましょう。
-
-//image[gae_local_with_login][ローカルサーバのログイン画面]{
-//}
-
-ローカルサーバではどのようなアドレスであっても構いません。
-appcfg.pyでアップロードした先では、
-本当のGoogleアカウントでログインする必要があります。
-
-APIの詳細は以下にあります。
-
-@<href>{https://developers.google.com/appengine/docs/python/users/}
-@<href>{https://developers.google.com/appengine/docs/python/users/userobjects}
-
 
 == GAEを使い続ける場合の注意
 
@@ -1259,6 +1221,7 @@ GAEにも興味を持たれた方は一度公式のドキュメントに目を�
 こういったとき、通信プロトコルを解析するのが有用なことがあります。
 「ネットワーク」において一度Puttyを利用していますので、
 ここでも一度使ってみることにしましょう。
+
 
 
 === Androidアプリとの緊密な連携
