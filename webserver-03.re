@@ -454,44 +454,18 @@ Python 2.7の持つライブラリの内容は
 == GAEその他のトピック
 === Googleアカウントを用いた「ログイン」を実装する。
 
-GAEではGoogleアカウントによるログイン処理をを実装するのは簡単です。
-"Hello world!"の代わりにユーザの名前を表示する方法を
-@<list>{helloworld_with_login}に示します。
 
-//list[helloworld_with_login][ログインを実装する]{
-    def get(self):
-        user = users.get_current_user()
-        if user:
-            self.response.headers['Content-Type'] = 'text/plain'
-            self.response.write('Hello ' + user.nickname())
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
-//}
-
-#@# TODO: 直す
-#@# //image[gae_local_with_login][ローカルサーバのログイン画面]{
-#@# //}
-
-ローカルサーバではどのようなアドレスであっても構いません。
-appcfg.pyでアップロードした先では、
-本当のGoogleアカウントでログインする必要があります。
-
-ログイン関連APIの詳細は以下にあります。
-
-@<href>{https://developers.google.com/appengine/docs/python/users/}
-@<href>{https://developers.google.com/appengine/docs/python/users/userobjects}
 
 == シラバスアプリのインポート
 
-本章は「ユーティリティによる実践」のシラバスアプリを前提に
-本編が進められています。
-ここではシラバスアプリをGitHubからダウンロードして、
+本項では、シラバスアプリをGitHubからダウンロードして、
 既存のEclipseにインポートする方法を示します。
 
-シラバスアプリで講義表を表示するListViewと、
-JSONデータのダウンロードが出来ていない場合にこの説明を参考にしてください。
+「ユーティリティによる実践」の演習でシラバスアプリが完成していない場合、
+特にURLを指定してJSONデータをWebからダウンロードするところまで
+到達していない場合に、本項を参考にしてください。
 
-== シラバスアプリのソースコードの取得
+=== シラバスアプリのソースコードの取得
 
 @<href>{https://github.com/ktaka/TechInstituteSyllabus}へアクセスします。
 
@@ -499,5 +473,10 @@ JSONデータのダウンロードが出来ていない場合にこの説明を�
 
 #@# Download ZIPの画像を用意
 
-zipを展開し、場所を覚えておきます。
+zipを展開し、展開したフォルダの場所を覚えておきます。
+
+=== Eclipseでプロジェクトをインポートする
+
+
+=== シラバスアプリの動作を確認する
 
