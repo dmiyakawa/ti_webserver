@@ -213,10 +213,18 @@ Pythonや深く理解する必要がないよう構成されています。
 
 //footnote[about_payment][GAEはユーザの同意なしに自動的に課金を行ったりしないのでその点を今心配する必要はありません。後述します。]
 
-本演習では、実際に世界中にサーバを公開します。
+=== 注意点
+
+本演習では、最終的には演習で実装したWebサーバを全世界に公開します。
 公開したからといって即座に問題になるわけではありませんが、
 Googleアカウントによるログインを除いて、
 個人情報やプライバシーに関わる情報をサーバに含めるのは避けたほうが無難です。
+
+また、Androidアプリ開発とは関係がないソフトをインストールします。
+特に演習用PC以外で本演習を行う場合、
+システムのバックアップを作成した方が良いでしょう。
+Windowsでは演習開始前に「復元ポイント」を作成することで、
+万が一の状況に備えることができます。
 
 
 == WebサーバでHello World!
@@ -227,7 +235,10 @@ GAEを用いてWebサーバを開発するために、
 インストールするバージョンはPython 2.7.8です。
 
 以下のURLからWindows向けPythonインストーラを取得します。
-3で始まるPythonバージョンは今回はインストールしないでください。
+「Windows X86 MSI Installer (2.7.8)」を選択してください。
+
+Pythonには3で始まる新しいバージョンがありますが、
+今回はインストールしないでください。
 
  * @<href>{https://www.python.org/downloads/release/python-278/}
  ** (@<href>{https://www.python.org/ftp/python/2.7.8/python-2.7.8.amd64.msi})
@@ -235,23 +246,57 @@ GAEを用いてWebサーバを開発するために、
 //image[install-python-1][@<href>{https://www.python.org/downloads/release/python-278/}のスクリーンショット]{
 //}
 
-//image[install-python-add-path-1][「Add python.exe to Path」をクリックし、表示された2つの選択肢のうち"Will be installed on local hard drive"を選ぶ]{
+ダウンロードした「python-2.7.8.msi」というファイルを実行すると、
+@<img>{install-python-beginning}のような画像が表示されるはずです。
+ここでは「Install for all users」が選択された状態で「Next」ボタンを押します。
+
+//image[install-python-beginning][]{
 //}
 
-//image[install-python-add-path-2][×印がなくなったら「Next」]{
+インストール先を確認されます。
+「C:\Python27\」となっていることを確認して「Next」を押します。
+
+#@warn(TODO: 出来れば撮り直す。一時ファイルが画面に入っていて実際と異なる)
+
+//image[install-python-destination][]{
 //}
 
-インストールが終了したら、確認のため、
-コマンドプロンプトで「Python」と入力して、
-Pythonの対話型環境が起動するかを確認してください。
+@<img>{install-python-add-path-1}のような画面が出たら
+「Add python.exe to Path」をクリックし、
+表示された2つの選択肢のうち"Will be installed on local hard drive"を選びます。
+
+//image[install-python-add-path-1][画面表示時の×印を変更する様子]{
+//}
+
+すると×印がなくなりますので「Next」を押します。
+
+//image[install-python-add-path-2][×がなくなった状態になったら、「Next」]{
+//}
+
+@<img>{install-python-reboot}のように再起動を要求されることがあります。
+このときは、PCを再起動してください。
+
+//image[install-python-reboot][]{
+//}
+
+以上の作業が終了したら、Python実行環境の動作確認をします。
+Windows画面左下の開始ボタンを押して「コマンド プロンプト」を選択後、
+「Python」と入力して、Pythonの対話型環境が起動するかを確認してください。
+
+//image[python-prompt][Pythonプロンプトの実行例]{
+//}
 
 === Google App Engine SDKのインストール
 
-本節ではGoogle App Engineに複数ある言語実装の中でも、Python版を採用します。
+次に、Google App EngineのPython SDKをインストールします。
+以下のURLを開いてください。
 
- * https://developers.google.com/appengine/downloads
+ * @<href>{https://developers.google.com/appengine/downloads}
+
 
 「Google App Engine SDK for Python」をクリックします。
+
+#@warn(GAEのバージョンが1.9.11から1.9.12に変わった。注意)
 
 //image[install-gae-1][]{
 //}
@@ -294,44 +339,13 @@ Install中、ダウンロードしたソフトウェアを信用するかどう�
 
 「Google App Engine Launcher」というWindowが起動すれば、
 GAE SDKのインストールに成功しています。
+@<fn>{if_using_japanese_name}
 
 //image[gae-installed][]{
 //}
 
-===[column] ユーザフォルダに日本語が含まれる場合の追加作業。
+//footnote[if_using_japanese_name][Windows 8等で日本語ユーザ名になっている場合、ここからさらに作業が必要です。〜「ユーザフォルダに日本語が含まれる場合のGAEインストールの追加作業」を参照してください。]
 
-このコラムの作業が必要なのは「C:\ユーザー\(ユーザ名)」
-の「ユーザ名」部分が日本語になっている場合だけです。
-日本語を含むフォルダの扱いをGoogle App Engineが正しく処理できないため、
-この作業が必要です。
-
-そのような例を@<img>{japanese_user_name}に示します。
-この現象は、Windows 8の初期設定で、
-日本語名のユーザを作成した際に発生します。
-
-//image[japanese_user_name][ユーザ名が「大輔」で日本語になっている]{
-//}
-
-このケースに当てはまる場合、さらに以下の作業を行なってください。
-
- * 「C:\GoogleAppEngine」のような日本語を含まないフォルダを作成する。
- * TMP環境変数に上記のアドレスを指定する。
- ** 環境変数は第4章「開発環境セットアップ」p61でPATHを指定した時と同じ方法で設定します。今回、変数名は「TMP」とし「変数値」を上記のフォルダとします。
- * プロジェクトを上記フォルダに作る。
-
-この作業を行わずにGAEの各種作業を行おうとすると、
-以下のような問題が発生します。
-
- * テスト用のsqlite DBが作成できないという旨のエラーが発生する。
- * GAEが動作しなくなる。
- * GAEが起動しなくなる。
-
-特に、最後の挙動に至った場合、PCの再起動等では復帰しません。
-そのPCの「ユーザ」フォルダに「Google」というフォルダができているはずですので、
-そのフォルダの中にあるGAE Launcherが作成する一時ファイルを全て削除すると、
-復帰します。
-
-===[/column]
 
 === ローカルサーバでHello World!
 
@@ -443,28 +457,41 @@ PyCharmの起動が成功しています。
 //image[pycharm-welcome][]{
 //}
 
-既にhelloworldプロジェクトを作っていますので、ここではそれを
-PyCharm上で編集してみましょう。
-「Open Directory」を選択し、helloworldプロジェクトが存在するフォルダを開きます。
+なお、PCによっては@<img>{pycharm-firewall}のような
+警告が表示されることがあります。
+ここではそのまま「アクセスを許可する」ボタンを押します。
 
-//image[pycharm-helloworld][]{
+//image[pycharm-firewall][]{
 //}
 
-@<img>{pycharm-helloworld}のような画面が出れば、
-プロジェクトを開けたことになります。
-
-なお、同時に@<img>{pycharm-tip-of-the-day}のような
+さらに@<img>{pycharm-tip-of-the-day}のような
 ダイアログが表示されることがあります。
 
 //image[pycharm-tip-of-the-day][]{
 //}
 
-
 今回は左下の「Show Tips on Startup」(起動時にTips画面を表示する)のチェックを
 外して、「Close」ボタンを押します。
 
-Eclipseと似た外見をしていますが、全く一致した使い勝手というわけではありません。
+既にhelloworldプロジェクトを作っていますので、ここではそれを
+PyCharm上で編集してみましょう。
+「Open Directory」を選択し、helloworldプロジェクトが存在するフォルダを開きます。
+
+//image[pycharm-select-helloworld][]{
+//}
+
+@<img>{pycharm-helloworld}のような画面が出れば、
+プロジェクトを開けたことになります。
+
+//image[pycharm-helloworld][]{
+//}
+
+PyCharmは同じく統合開発環境であるEclipseと似た外見をしています。
+しかし、全く一致した使い勝手というわけではありません。
+
 以下に、すぐに使い勝手を改善出来るヒントを示します。
+この他にも興味があればカスタマイズしてみても良いかもしれません。
+
 
  * 起動時にkeymapを変更していない場合「File >> Settings >> Keymap」でKeymapsを「Eclipse」に変更すると、Eclipse風になります。@<img>{eclipse_keymap}ただし全てがEclipseと同じになるわけではありません。
  * 「File >> Settings >> (左画面IDE Settingsの) Editor >> Editor Tabs >> Mark modified tabs with asterisk」のチェックを入れておくと、Eclipseの時と同様保存されていないファイルのタブに*(スター、もしくはアスタリスク)が付きます。@<img>{asterisk}
@@ -475,12 +502,15 @@ Eclipseと似た外見をしていますが、全く一致した使い勝手と�
 //image[asterisk][]{
 //}
 
-Pythonでプログラミングする準備が整いました。
+ここまででようやくPythonでプログラミングする準備が整いました。
 
-プログラミングに自信があればこのままWebサーバの実装を進めても構いませんし、
-一旦次節に進み、Pythonの基礎を学んでも構いません。
+プログラミングに自信があれば、このままGAEによるWebサーバの実装を進めて
+構いません。
+あるいは、一旦次節に進み、Pythonの基礎を学んでから次に進んでも構いません。
+なお、Pythonの知識を要求する説明はほぼありませんが、
+自力で機能を拡張する際には必要になるでしょう。
 
-=== Webサーバのメッセージを変える
+=== Hello Worldサーバへブラウザからアクセスする
 
 Hello Worldでは味気がないので、別の文字列を出力してみましょう。
 作成したプロジェクトの"Hello world!"部分を、
@@ -494,18 +524,19 @@ PyCharmの画面左、「helloworld」となっている部分をクリックし
  * index.yaml
  * main.py
 
+これで全てです。
 GAEの初期プロジェクトはAndroidと比べるとシンプルです。
-それぞれのファイルの意味を説明しましょう。
+それぞれのファイルの意味は以下のとおりです。
 
  * main.pyはWebアプリケーション本体のソースコードです。
  * app.yamlとindex.yamlは、Androidで言えばAndroidManifest.xmlに相当するような、アプリの設定ファイルです。
- * favicon.icoはブラウザ上で各タブに表示されるアイコンのためのファイルです。
+ * favicon.icoはWebページを開いたときに使われるアイコンです。今回はGAE Launcherでプロジェクトを生成したため、Googleが提供するものが自動的に用意されています。
 
-favicon.icoは、今回扱いません。
 主に他の3つのファイルを編集することで機能を追加していきます。
+favicon.icoについて今回は扱いません。
 
-main.pyのPythonコードは実質だけです。
-これだけで"Hello world!"を表示するWebサーバになります。
+main.pyのPythonコードは実質@<list>{all_source}に示しただけです。
+これで"Hello world!"を表示するWebサーバになります。
 
 //list[all_source][GAEを用いたWebサーバの全文]{
 import webbapp2
@@ -519,19 +550,7 @@ app = webapp2.WSGIApplication([
 ], debug=True)
 //}
 
-現段階で把握しておきたいのは以下のことです。
-
- * Pythonではインデントがブロックの範囲を示します。勝手にインデントを使うことが出来ません。
- ** 代わりにブロックの開始と終了を示す中括弧が存在しません。
- * 「def function_name(args):」という表現で関数(メソッド)を宣言します。
- ** 閉じ括弧の後のコロン「:」は必須です。
- * 「webapp2.WSGIApplication()」に渡されるリストは「WebサーバのどのパスをどのHandlerが処理するか」を示したものです。
- ** []で囲われており、Javaの配列に見えますが、どちらかと言えばArrayList等に近い、より柔軟なデータ構造です。
- * get() は HTTP GETを、post()はHTTP POSTを処理する関数になります。
- ** 今回、GETはデータを取得するのに使い、POSTはデータを追加・更新するのに使います。
-
-単に「Hello world!」という文字列を変更したいだけなら、
-Pythonの深い部分を知る必要はありません。
+もし「Hello world!」という文字列を変更したいだけなら、
 @<list>{hello_world}の行を変更すればよさそうです。
 
 //list[hello_world][このような行が見つかる]{
@@ -540,6 +559,100 @@ Pythonの深い部分を知る必要はありません。
 
 helloworld.pyの内容を変更してファイルを保存後、
 GAE Launcherで再びローカルサーバを起動して変更を確認してみましょう。
+
+=== Hello World!プログラムの意味
+
+Pythonプログラミングに関する部分を除くと、
+おおよそ意味は次のとおりになります。
+
+まず、webapp2というライブラリでWebサーバを実装しています。
+これはGAE Python特有のライブラリで、Webサーバを実装するのに使います。
+Webサーバを実装するためのフレームワークは、
+使用するプログラミング言語に限らず似ている部分があります。
+ここでもwebapp2の詳細は置いておき、共通の概念を中心に見ていきます。
+
+MainHandlerというクラスのget()関数が実際にWebサーバで何を返すか示しています。
+ここでは第14章「ネットワーク」で既に登場している、HTTPのGETリクエストを処理するためのget()関数を定義しています。
+第14章「ネットワークプログラミング」でも一度登場した、
+クライアントとサーバがやり取りするHTTP(HyperText Transfer Protocol)
+を今回はサーバ側から扱うことになります
+
+HTTPには、目的に応じて何種類かリクエストの種類がありますが、
+クライアント(Androidアプリやブラウザ)がデータを受け取る場合は
+GETリクエストが一般的です。
+データを更新する場合はPOSTリクエストという別のリクエストを用います。
+POSTについては本項で後で登場します。
+
+ここでは一旦GETリクエストのみ実装します。
+GAEでは実装していないリクエストは適切にエラー処理されます。
+それ以外のHTTPのリクエストの種類は今回は省略します。
+
+Hello Worldサーバでは、
+「app = webapp2.WSGIApplication(...)」
+という関数に渡されるリストによって、
+Webサーバにクライアントからのリクエストが到着した際に、
+URLのどのパスをどのクラスが担当するかを決めています。
+@<fn>{class_and_instance}
+
+//footnote[class_and_instance][実際には、GAEによって、自動的にこのクラスのオブジェクトが生成されており、それがリクエストに応答します。]
+
+@<href>{http://localhost:8080/}」のポート番号「8080」の後の部分が
+「パス」(path, 「経路」)です。
+今回は「/」、つまりパスなしのケース「だけ」を
+MainHandlerクラスが受け持つことになっています。
+
+試しにブラウザに入力するURLを@<href>{http://localhost:8080/example}
+に変更して、サーバにアクセスしてみてください。
+
+「404 Not Found」と出てくるはずです。
+@<fn>{gae_responsible_for_404}
+
+//footnote[gae_responsible_for_404][実装がない際の表示はGAE Pythonのローカルサーバが出しています。]
+
+//image[my_own_404][]{
+//}
+
+「全てのパスをこのMainHandlerクラスがが受け持つ」ように実装を変更してみましょう。
+
+//emlist[]{
+application = webapp2.WSGIApplication([
+    ("/.*", MainHandler),
+], debug=True)
+//}
+
+これで404が出なくなり、「Hello world!」が再び表示されるようになるはずです。
+
+=== HTTPのステータスコードについて
+
+「404 Not Found」は普通のWebブラウジングでも見たことがあるかもしれません。
+HTTPというプロトコルつまりルールで、サーバはそのリクエストに対応する
+リソースがない場合、404番という番号をクライアントに返すことを期待されています。
+
+クライアントがサーバにリクエストを送信した際、
+成功しても失敗しても、サーバからは何らかの数字が返されます。
+これをステータスコードと呼びます。
+Webブラウジングしているときには意識しませんが、
+Webページが正しく存在している時、
+サーバからは「200番」という数字が返されます。
+
+ステータスコードは左端の桁が主要な理由を示しており、
+残りの2桁でより具体的な状況を説明します。
+いくつか挙げてみます。
+
+ * 200 OK: リクエストで要求されたものが存在したので送りますよ。
+ * 301 Moved Permanently: リクエストしたリソースは永久に別の場所へ移動しました。
+ * 404 Not Found: そんなリソースは知りません。
+ * 508 Internal Server Error: サーバ内部でエラーが発生しちゃった！
+
+なお、404 Not Foundの場合でもコンテンツを返せないわけではありません。
+GitHubのWebサイトで存在しないページへアクセスした時の例を@<img>{github_not_found}示します。
+
+//image[github_not_found][]{
+//}
+
+もちろん、ステータスコードをPython実装上で指定したり、GitHubのように
+見た目の異なる404画面を表示させることもできますが、今回は割愛します。
+GAE Pythonでのレスポンスを操作する際の詳細は、例えば@<href>{https://cloud.google.com/appengine/docs/python/tools/webapp/redirects}を参照してください。
 
 === 世界にHello World!
 
@@ -556,26 +669,27 @@ Webアプリのための「アプリケーションID」を取得します。
 
 @<href>{https://appengine.google.com/}
 
-Google App Engineの利用規約が表示された場合は内容を確認し、
-「I accept these terms」をチェックした上で「Submit」を押します。
-
-//image[gae-tos][]{
-//}
-
-次画面で、"Create Application"をクリックします。
+"Create Application"をクリックします。
 
 //image[gae-web-console][]{
 //}
 
-Application Identifierとして「世界中で唯一」の名前を一つ設定します。
-「ti-(受講生番号)」といったものでも構いませんし、別のものでも構いません。
+@<img>{gae-app-id}で、Application Identifierとして
+「世界中で唯一」の名前を一つ設定します。
 他の人が利用している名前は選択できません。
 これはそのまま公開するサーバ名になるので、
 おかしな名前も避けたほうが良いでしょう。
 
+//image[gae-app-id][]{
+//}
+
 アプリケーションIDを考えたら、
 右側の"Check Availability"ボタンで利用できるかを確認し、
 実際にそのアプリケーションIDを使用出来ることを確認します。
+
+Google App Engineの利用規約が表示されている場合は内容を確認し、
+「I accept these terms」をチェックした上で「Submit」を押します。
+
 
 最後に、最下段の"Create Application"ボタンを押します。
 
@@ -598,94 +712,13 @@ GAE Consoleで「Deploy」ボタンを押すとユーザ名とパスワードを
 ここで、ユーザ名はGoogleアカウント名、
 パスワードはGoogleアカウントのパスワードか、
 仮に2段階認証プロセスを有効にしている場合は、
-アプリケーション固有パスワードを使用します。
+アプリケーション固有パスワードを準備してそれを使用します。
 
 ログで「Deployment successful」と出たら成功です。
 
-「@<href>{https://(自分が生成したID).appspot.com/}」へアクセスしてみましょう。
-なお、URLの冒頭は「http」ではなく「https」とすることをおすすめします。
-理由は座学パートで説明しています。
+「@<href>{http://(自分が生成したID).appspot.com/}」へアクセスしてみましょう。
 
-隣の人にアプリケーションIDを教えてもらい、
-他の人のWebサーバを見せてもらってもよいでしょう。
-
-===[column] 2段階認証とアプリケーション固有パスワード
-
-開発者ならば、出来れば2段階認証について理解し、積極的に活用してほしいと思います。
-それによって、結果的にアプリを利用するユーザをも守ることになるからです。
-
-2段階認証については、例えば@<href>{https://www.google.com/intl/ja/landing/2step/}などを見るのが、良いでしょう。
-
-2段階認証を用いる場合、GAE Consoleの「Deploy」ボタン押下時に
-要求されるパスワードに自分のGoogleアカウントのパスワードを入れてはいけません。
-Googleアカウントを用いてアプリケーション固有パスワードを準備する
-必要があります。
-
-まず以下のURLへアクセスします。
-
-@<href>{https://security.google.com/settings/security/apppasswords}
-
-最下段の「端末を選択」で「その他(名前を入力)」を選び
-例えば「Google App Engine」と入力し、「生成」を押します。
-
-4文字が空白で4つ区切りになった、合計で16文字のパスワードが表示されますので、
-これを使います。
-本演習が終わった後、
-不要であればこのアプリケーション固有パスワードを削除することで、
-GAE Consoleが万が一乗っ取られた状況に対処することができます。
-
-なお、OAuth2という技術を用いることで、
-アプリケーション固有パスワードなしに
-GAEの本番サーバへデプロイする方法もあるのですが、
-GAE Consoleが対応していないので省略します。
-
-===[/column]
-
-=== 講義室内でHello World!
-
-同じWi-Fiネットワーク内の他の人にだけサーバを見せたい、
-というケースがあるかもしれません。
-
-まず、14-1-2「IPアドレスとは？」であったipconfig(Mac等ではifconfig)コマンド
-を用いて自身のIPアドレスを確認します。
-注意点として127.0.0.1といったIPアドレスではないもうひとつのIPアドレスを
-探してください。
-
-//cmd{
-> ipconfig
-...
-10.0.90.181
-...
-//}
-
-このようになっていたら、GAE Launcherの「Edit >> Application Settings..」
-を開き、「Extra Command Line Flags」に「--host=10.0.90.181」と
-追加します。IPアドレス部分は状況に応じて変更してください。
-
-//image[specify-hostname][]{
-//}
-
-このあとに起動すると、@<href>{http://(自分のIPアドレス):8080/}
-でローカルサーバを起動します。
-
-このようにホスト側IPアドレスを指定してサーバを起動すると、
-「http://localhost:8080」ではWebページは
-表示されなくなります。
-代わりに、指定したIPアドレスを含むURLでだけ、表示できます。
-
-このIPアドレスとそのURLへは、Wi-Fiを共有している人たちの間でだけ
-共有することができます。
-@<href>{http://(自分のIPアドレス):8080/}を隣の人に教えれば、
-隣の人のPCやAndroid端末から、そのWebページを見られるようになります。
-この方法は、世界中にサーバを公開せず、近くの人と挙動を確認しあうのに使えます。
-後述するAndroidアプリとも、Wi-Fiネットワークの範囲内であれば、通信を行えます。
-
-教室や自宅で現在利用されている多くのネットワークでは、
-NAT(Network Address Translation)と呼ばれる技術によって、
-インターネットと内部のネットワークが分断されています。
-そういった状況でのIPアドレスはインターネットからは見えないため、
-「世界に公開」していることにもなりません。
-
+せっかくですから、他の人のWebサーバを見せてもらってもよいでしょう。
 
 === ログ出力方法
 
@@ -709,9 +742,9 @@ class MainHandler(webapp2.RequestHandler):
 
 もしPythonのloggingについて詳細に学びたいは、まず
 @<href>{http://docs.python.jp/2/howto/logging.html#logging-basic-tutorial}
-から読むのが良いでしょう。
+を読むことから始めると良いでしょう。
 
-=== 本番サーバの状況を確認する
+=== 本番サーバのダッシュボードとリソース割り当てについて
 
 GAE Launcherには「Dashboard」というボタンもあります。
 このボタンを押すと、本番サーバの管理者画面をブラウザに表示してくれます。
@@ -720,34 +753,29 @@ GAE Launcherには「Dashboard」というボタンもあります。
 //image[gae-dashboard][]{
 //}
 
-=== GAEのリソース割り当てを確認する
-
 Google App Engineは小規模なサーバを起動する分には無料で利用できます。
 より正確には、それぞれのアプリに無料で利用できる一日あたりの割り当て
 が決まっており、その範囲内のアクセスであれば料金はかかりません。
-割り当てとその消費量はGoogle Developers Consoleの
-「計算処理 >> App Engine >> 割り当ての詳細」を見ることで確認ができます。
+割り当てとその消費量は「Quota Details」から見ることができます。
 
-//image[gae_usage][割り当て]{
+//image[quota][]{
 //}
 
 第三者からの大量のアクセスがあったりした際に、
 この割り当てを使い尽くしてしまう可能性があります。
-その場合、ユーザからはサービスが停止するように見えます。
+その場合、ユーザからはサービスが停止するように見えてしまいます。
 
-今回の実験的利用を越えた、相対的に大きな負荷が予想される場合には
-クレジットカードを登録し、アクセスに応じた課金を受け入れる必要があります。
+GAEで規模の大きなサービスを実装する場合、
+少なくとも以下の2点について対処する必要があります。
 
-本章ではGAEの内部でどのようにそれぞれの処理が実装されるかについての説明を
-省略しています。
-今回のようなシラバスアプリの範囲であれば、全く問題なく動作するはずですが、
-大規模利用する際には問題が起こる可能性があります。
+ * クレジットカードを登録し、アクセスに応じた課金を行えるようにする。
+ * アクセス負荷が小さくなるよう、GAEに適した形でアプリケーションの設計を考えなおす。
 
-GAEにも興味を持たれた方は一度公式のドキュメントに目を通し、
-今回無視した背後の仕組みを今一度理解した上で利用することをお勧めします。
+なお、今回の演習の範囲でこの問題を考える必要はないはずです。
+クレジットカードによる課金も、明示的に登録しない限りは発生しません。
 
 
-== シラバスアプリのサーバをつくろう
+== シラバスアプリのサーバを作りこもう
 === シラバスアプリでやりとりするデータ構造を考える
 
 「ユーティリティによる実践」で、
@@ -766,7 +794,8 @@ JSON形式のデータをAndroidアプリで利用する方法を学びました
 このルールがアプリとサーバ側で違っていると、通信は出来ません。
 
 まず、上記のJSONデータをブラウザで見てみましょう。
-大変読みづらいですが、本質的には@<list>{json_data}で示されるような構造になっています。（分かりやすい部分を抜粋しています）
+
+元のデータは人が読めるようにフォーマットされていないため大変読みづらいですが、本質的には@<list>{json_data}で示されるような構造になっています。（構造が分かりやすい回を抜粋して掲載しています）
 
 //list[json_data][JSONフォーマットを整形したもの、一部]{
 {
@@ -809,8 +838,9 @@ JSON形式のデータをAndroidアプリで利用する方法を学びました
 
 これに加えて、今度はEclipse上でシラバスアプリの実装を見てみましょう。
 
+
 シラバスアプリでは、JSONで指定されたこれらのデータの中から、
-以下の4つの情報だけを使っています。
+以下の4つの情報だけを使っていることが分かります。
 
  * date 講義が行われる日付
  * title その講義のタイトル
@@ -818,24 +848,31 @@ JSON形式のデータをAndroidアプリで利用する方法を学びました
  * detail 講義の詳細 (サンプルのJSONファイルでは空でした)
 
 それ以外のデータは全く使っていないようなので、
-今回のWebサーバではこれらのデータだけを扱うことにしましょう。
+今回のWebサーバでは、これら4種類のデータだけを扱うことにします。
 
-言い換えると、Webサーバは講義数分だけこの4種類のデータを
-持つJSON形式のデータを返答すれば良いのです。
+言い換えると、Webサーバは講義数分だけこの4種類のデータを繰り返し持つ
+JSON形式のデータをクライアントに返答すれば良いのです。
 
 === 自分のWebサーバから、自動生成したJSONデータを返す
 
-まず、固定のデータをプログラムが
-自動的に生成するようにし、それをクライアント側に
-返答するWebサーバに変更してみます。
+Hello Worldサーバの実装を変更し、
+講義情報が機械的に生成されるようにして、
+その結果ををクライアント側に返送するWebサーバにしてみます。
 
-//emlist[こーど]{
-# 以上省略
+なおここで日本語を表示するのですが、
+Pythonのルールとして冒頭に「-*- coding: utf-8 -*-」
+というコメント行をファイル冒頭に含めておく必要があります。
+
+//emlist[helloworld.pyをこのように変更する]{
+# -*- coding: utf-8 -*-
+
+import webapp2
+
 from datetime import datetime, timedelta
 from json import dumps
 import logging, pprint
 
-class MainPage(webapp2.RequestHandler):
+class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
         courses = []  # 空のリスト
@@ -849,64 +886,41 @@ class MainPage(webapp2.RequestHandler):
         data = dumps({'course': courses}, ensure_ascii=False)
         logging.info(pprint.pformat(data))
         self.response.write(data)
-# 以下省略
+
+application = webapp2.WSGIApplication([
+    ("/", MainHandler),
+], debug=True)
 //}
 
 ここでは、Python言語で生成したデータ構造を(json.dumps()関数で)JSONの文字列
-として返しています。
-これらはHTTPと呼ばれるプロトコルによって、
-クライアント、すなわちブラウザやAndroidアプリに返されます。
+として返答しています。
+
 サーバが返すデータがどのような形式のデータかを、
 ブラウザやAndroidアプリは事前に理解する必要があるため、
 「Content-Type」という情報を指定しておく必要があります。
-この点は後述します。
-
-logging.info()を指定しているので、
-ログにはJSONフォーマットする前のデータが表示されます。
-
+あわせて日本語を表示するために文字コードの指定もします。
+本講義の範囲では次のことが分かれば十分です。
+つまり、サーバから送られるデータがHTMLなのか、
+あるいはPDFや動画データといった別のデータかを区別するために、
+サーバはクライアントとユーザに見えないところでやり取りをしています。
+サーバを実装するにはこれらを意識して送信しないと、
+ブラウザの挙動が不適切になったりするのです。
 
 === 生成されたJSONデータをブラウザで確認する。
 
 ローカルサーバ(@<href>{http://localhost:8080})から、
-JSON形式のデータがダウンロードできることを、
-ブラウザを用いて確認してください。
+JSON形式のデータを閲覧出来ることをブラウザを用いて確認してください。
 
-#@# TODO: サーバの結果
+//image[json-on-browser][]{
+//}
 
-表示されるデータが問題無さそうであれば、
-作成したサーバアプリケーションをGoogleの本番サーバにアップロードします。
-アップロードする方法は既に説明しましたので、省略します。
+問題無さそうであれば、
+作成したサーバアプリケーションを再び本番サーバにアップロードします。
 
 本番サーバのURLへブラウザでアクセスし、
 やはり同様のJSONデータを取得できることを確認します。
 
-ここまでで、世界に公開された状態で
-講義表データを返すWebサーバが完成しました！
-
-=== Puttyを使って応答の中身を見てみる
-
-サーバとブラウザの間のやりとりができていることは分かりましたが、
-具体的にどのようなやり取りをしているのかはこのままでは分かりません。
-
-こういったとき、実際に双方がやりとりしている「通信プロトコル」を解析するのが有用なことがあります。
-「ネットワーク」において一度Puttyを利用していますので、
-ここでもう一度、使ってみることにしましょう。
-
-#@# TODO: putty の結果
-
-HTTPというプロトコルによってクライアントであるPuttyで「GET」リクエストを
-サーバに送ると、今回は自分で作成したサーバがContent-Typeを指定した上で、
-JSONデータを返している様子がわかります。
-
-HTTPレスポンスのほとんどの部分はGAEが用意してくれているため、
-今回の範囲ではGAEのAPIを通してPythonのデータ構造(self.response.headersやself.response.write()など)に渡すだけで処理が終わります。
-
-HTTPというプロトコルは単純そうに見えて意外に複雑な部分が多いため、
-GAEのような「Webアプリケーションフレームワーク」という補助的なAPI
-を使ってWebサーバを作ることが一般的です。
-
-==== Content-Type / GET
-
+ここまでで、世界に公開された状態で講義表データを返すWebサーバが完成しました！
 
 === シラバスアプリにサーバのJSONデータを読み込ませる
 
@@ -918,12 +932,12 @@ GAEのような「Webアプリケーションフレームワーク」という�
 GitHubから最新のプロジェクトをダウンロードし、
 Eclipseにインポートして準備してください。
 
-#@# TODO: 念の為、次節で、シラバスアプリをインポートする方法を説明します。
+次節で、シラバスアプリをインポートする方法を説明しています。
 
 シラバスアプリのMainActivity.javaのsyllabusUrlを自分の本番サーバのURLに変更します。
 
 //emlist[しらばす]{
-private static final String syllabusUrl = "http://model-shelter-709.appspot.com";
+private static final String syllabusUrl = "http://(自分が指定したID).appspot.com";
 //}
 
 この変更を行った上で、これまでと同様にAndroidアプリをビルド・実行します。
@@ -945,27 +959,74 @@ WebサーバとAndroidアプリを交互に開発する際には、
 原因がWebサーバにあるのか、
 Androidアプリにあるのかを見極める必要があります。
 
+サーバとブラウザの間のやりとりができていることは分かりました。
+しかし、Androidアプリの画面を見るだけでは、
+具体的にどのようなやり取りをしているのかは分かりません。
+
+AndroidアプリとWebサーバをセットで開発している際、
+実際にクライアントとサーバが何を通信しているのかを詳しく調べたいことがあります。
+以下では2つの方法を簡単に紹介します。
+
+=== Chromeの開発者コンソールを開いて通信の詳細を覗いてみる
+
+現在はブラウザ自体に豊富な機能があるため、Webサーバとの通信の様子を
+調べるのはまずこの機能を使うことが多いです。
+Chromeでは「デベロッパーツール」と呼ばれています。
+
+デベロッパーツールを起動するには、
+JSONデータを表示したChromeで右クリックをし「要素を検証」をクリックしてください。
+すると、Chromeの下方にデベロッパーツールが表示されます。
+
+//image[developer-tools][]{
+//}
+
+試しに「Network」タブを選択し、その状態でWebページを再読み込みしてみてください。
+すると、@<img>{developer-tools-2}のように表示されるはずです。
+今回はただJSONデータを取得するだけなので1行だけ増えるでしょう。
+
+//image[developer-tools-2][デベロッパーツールで通信の内容を見る例]{
+//}
+
+この例では、ブラウザがGETリクエストをサーバに送信し、
+サーバから約18ミリ秒でステータスコード200とデータが帰ってきたことが分かります。
+
+他のWebページで試してみるとより面白いでしょう。
+Webページ1ページを表示するためにどれだけのGETリクエストが
+行われているかが分かるはずです。
+
+Webサーバとクライアント間をまたぐサービスを実装する場合、
+サーバ側のログとクライアントの画面表示のみならず、
+ネットワーク間の通信がどのように行われたかも把握する必要がしばしばあります。
+そういった場合、ブラウザ付属のツールを覚えておくととても便利です。
+
+「Chrome デベロッパーツール」などと検索をすると多くの情報が得られるはずですので、デベロッパーツールについて詳細に学びたい方は調べてみてください。
+@<fn>{putty_is_useful}
+
+//footnote[putty_is_useful][ブラウザの開発者向けツールよりも更に込み入った細かい情報を調べたい時があります。こういったときには、第14章「ネットワークプログラミング」で利用したPuttyのような「生」のデータを扱えるツールが有用なことがあります。]
+
+
 === 講義表を保存・変更出来るようにする
 
 ここまでで、Webサーバ上で生成したJSONデータを
-Androidアプリに与えることに成功しています。
+Androidアプリに与えることに成功しました。
 しかし、このデータはPythonが勝手に生成したもので、
-本当に価値のあるデータとは言えないでしょう。
+本当に価値のあるデータとは言えません。
 
-ここからは更に一歩突き進み、人の手で講義データを追加し、
-それをブラウザとアプリの両方で表示出来るようにすることにします。
+このWebサーバをさらに発展させて、人の手で講義データを追加出来るように
+してみましょう。
 
-今回は以下の4つのシナリオに対応することにします。
+本節では、以下の4つのシナリオに対応することにします。
 
  * 講義一覧をHTMLで表示するトップページ
- * 講義の新規登録ページ
  * JSON形式で講義を表示するページ
+ * 講義の新規登録ページ
 
-講義の編集や削除は演習課題とします。
+講義の編集や削除は、演習問題とします。
 
-これを達成するには、GAE上でデータを保存できるようにする必要があります。
-具体的には、先ほどのJSONデータと全く同じ4種類のデータをひとまとめにして、
-それらを複数保存できる必要があります。
+講義データを人の手で追加出来るWebサーバを実現するには、
+GAE上でデータを保存できるようにする必要があります。
+既に議論したJSONデータの中にある4種類の情報をひとまとめにして、
+そのまとまりを複数保存できる必要があるはずです。
 
  * date 講義が行われる日付
  * title その講義のタイトル
@@ -975,9 +1036,39 @@ Androidアプリに与えることに成功しています。
 この4つのデータを、
 言ってみれば「1つのオブジェクト」のようにして保存して欲しいわけです。
 
-先にこのデータ構造をサーバに実装することにしましょう。
+まず、このデータ構造をサーバに実装することにしましょう。
+今回はGAEのDatastoreという仕組みを利用します。
+helloworld.pyに次の実装を追加してください。
 
-#@# TODO: ここにからのデータのあれを入れる。
+//emlist[]{
+# (その他のimport文)
+
+from google.appengine.ext import ndb
+
+def course_list_key():
+    return ndb.Key('CourseList', 'default_course_list')
+
+class Course(ndb.Model):
+    date = ndb.DateTimeProperty()
+    title = ndb.StringProperty()
+    teacher = ndb.StringProperty()
+    detail = ndb.StringProperty()
+
+# MainHandler
+//}
+
+保存する形式にはプログラミング言語と似たデータ型があります。
+GAEのDatastoreで利用できるデータ型は@<href>{https://developers.google.com/appengine/docs/python/ndb/properties}に掲載されています。
+今回は「日付」に対応するデータと文字列データさえあれば事足ります。
+
+course_list_key()関数は、GAE内で本来バラバラで保存されている
+データをひとまとめにするおまじないとでも考えてください。
+すぐ後で使います。
+
+GAEではここでさらに、データを順序立てて検索するために
+「インデックス」と呼ばれるデータを用意する必要があります。
+詳細は省略しますが、今回は「日付」でソートする前提で、
+index.yamlに次のように書いておきます。
 
 //emlist[index.yaml (app.yamlではないので注意)]{
 indexes:
@@ -985,26 +1076,80 @@ indexes:
   ancestor: yes
   properties:
   - name: date
-    direction: desc
-  - name: date
-    direction: asc
 //}
 
-まだコースを登録していないので、JSONは以下のような「空」のコース一覧を
-表示します。
+この時点ではまだ保存するデータ構造を定義しているだけで、
+使っていません。
+とりあえずJSONデータを表示するのに使ってみましょう。
+
+//emlist[]{
+# (import文やCourseクラス)
+
+class MainHandler(webapp2.RequestHandler):
+    def get(self):
+        course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
+        courses = []  # 空のリスト
+        for course_model in course_model_list:
+            single_course = {'date': str(course_model.date),
+                             'title': course_model.title,
+                             'teacher': course_model.teacher,
+                             'detail': course_model.detail}
+            courses.append(single_course)
+        self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
+        self.response.write(dumps({'course': courses}, ensure_ascii=False))
+
+application = webapp2.WSGIApplication([
+    ("/", MainHandler),
+], debug=True)
+//}
+
+まずローカルサーバを起動してブラウザで結果を確認します。
+ここではまだ講義データを一切登録していないので、
+JSONは以下のような「空」のコース一覧を表示します。
 
 //emlist[結果はこうなる]{
 {"course": []}
 //}
 
-JSONではなくHTMLも表示出来るようにしてみましょう。
-具体的にはHTTP GETのquery stringで出力方法(output)を指定出来るようにします。
+なお、本番サーバへindex.yamlを最初にアップロードした後、
+暫くの間@<img>{need_index_error}のように
+「NeedIndexError: The index for this query is not ready to serve. ...」(検索に使うインデックスが準備できていません)というエラーが表示されます。
+この場合は、少し様子を見てください。
+GAE側で関連するデータベースのインデックスを作成するのに時間がかかるためです。
 
-HTMLの画面では、次に作る「講義の登録」画面のためのHTMLタグも入れてしまいます。
+//image[need_index_error][]{
+//}
+
+なお、似たようなエラーとして「NeedIndexError: no matching index found.」(一致するインデックスがありません)というエラーメッセージが出ることがあります。
+この場合はPythonプログラムで指定しているソートの方法とindex.yamlで生成しているインデックスが一致していません。
+つまりプログラミング上に何か間違いがあります。
+
+JSONデータが空なのは残念ですが、
+JSONデータを追加する方法について考える前に、
+先にHTMLで講義データを表示する実装も作ってしまいましょう。
+さらに次で使えるように、HTMLの画面では、
+次に作る「講義の登録」画面のためのHTMLタグも入れてしまいます。
+
+これまでは、言ってみればWebサーバのトップページがJSON形式のデータを
+出力していましたが、ここでHTMLとJSONの両方を出力するように変更します。
+URLには、パスの後に「?」をつけると、
+以降に「クエリ文字列」という文字列を追加することができます。
+この仕組みを利用して、以下のような動作に変更します。
+
+ * 何も指定がなければHTMLを返す (例 @<href>{http://localhost:8080/})
+ * 「output=json」 というクエリ文字列をつけたらJSONを返す (例 @<href>{http://localhost:8080/?output=json})
+
+GAEでは「self.request.get('output')」といった形で簡単にクエリ文字列の
+「キー」と「値」の組み合わせを取得できます。
+特に今回は「指定がなかったらHTMLを返す」という動作にするため、
+もしキーと値の組がなければhtmlが送られてきたことにするため
+「self.request.get('output', 'html')」と書くことにします。
+get()関数の第二引数は「存在しない場合のデフォルト値」です。
+
+この値を元にif文で分岐をすれば良さそうです。
 
 //emlist[講義数0]{
 # -*- coding: utf-8 -*-
-from google.appengine.api import users
 from google.appengine.ext import ndb
 import webapp2
 
@@ -1020,23 +1165,23 @@ class Course(ndb.Model):
     teacher = ndb.StringProperty()
     detail = ndb.StringProperty()
 
-class MainPage(webapp2.RequestHandler):
+class MainHandler(webapp2.RequestHandler):
     def get(self):
         course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
         output = self.request.get('output', 'html')
         if output == 'html':
-            lst = [u'<html><body>']
-            lst.append(u'<h1>講義数合計: {}</h1>'
+            lst = ['<html><body>']
+            lst.append('<h1>講義数合計: {}</h1>'
                        .format(course_model_list.count()))
-            lst.append(u'<ul>')
+            lst.append('<ul>')
             for course_model in course_model_list:
-                lst.append(u'<li>{}, {}, {}</li>'
+                lst.append('<li>{}, {}, {}</li>'
                            .format(course_model.title,
                                    course_model.teacher,
                                    course_model.detail))
-            lst.append(u'</ul>')
-            lst.append(u'<a href="/create">Create</a>')
-            lst.append(u'</body></html>')
+            lst.append('</ul>')
+            lst.append('<a href="/create">Create</a>')
+            lst.append('</body></html>')
             self.response.headers['Content-Type'] = 'text/html; charset=UTF-8'
             for line in lst: self.response.write(line)
         else:
@@ -1050,28 +1195,26 @@ class MainPage(webapp2.RequestHandler):
             self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
             self.response.write(dumps({'course': courses}, ensure_ascii=False))
 
-application = webapp2.WSGIApplication([
-    ("/.*", MainPage),
+app = webapp2.WSGIApplication([
+    ("/", MainHandler),
 ], debug=True)
 //}
 
-この変更でJSONを受け取るURLが変わった点に注意してください。
+Pythonではインデントがブロックの範囲を表すので、
+既にあるJSON側の実装のインデントを1段階下げるのも忘れないようにしてください。
+
+この変更で、JSONを受け取るURLが変わった点に特に注意してください。
 これ以降、アプリ側で結果を見たい場合は、
 Androidのシラバスアプリで指定したURLの末尾に
 "?output=json" をつけておく必要があります。
+もっとも、今の時点ですと空のListViewが出てくるだけですが……。
 
 //emlist[しらばす]{
-private static final String syllabusUrl = "http://model-shelter-709.appspot.com/?output=json";
+private static final String syllabusUrl = "http://(ID).appspot.com/?output=json";
 //}
 
 HTML上では「講義数合計: 0」の下にCreateというリンクが出てきますが、
-ここをクリックしても同じ表示が出てくるだけです。
-ちょっと異なるのは、URLに"/create"というパスが表示されたことでしょうか。
-
-データを保存するために、GAEのDatastoreと呼ばれる仕組みを使っています。
-指定できるデータ型は以下の通りです。
-
-@<href>{https://developers.google.com/appengine/docs/python/ndb/properties}
+ここをクリックしても404 Not Foundが表示されるだけです。
 
 
 === データを追加するための画面を作る
@@ -1079,63 +1222,16 @@ HTML上では「講義数合計: 0」の下にCreateというリンクが出て�
 まだデータが空のままです。
 追加できる画面を作ることにしましょう。
 
-行うべきことは大きく分けて2つです
+ここで行うべきことは大きく分けて2つです
 
  * フォーム画面を作ります
  * フォーム画面から送信されたデータを受け取り、登録する部分を作ります
 
-一般的に、クライアントからWebサーバにデータを送る際には
-GETではなくPOSTリクエストを送ります。
 
-//emlist[えらーがでます]{
-# -*- coding: utf-8 -*-
-from google.appengine.api import users
-from google.appengine.ext import ndb
-import webapp2
+//emlist[この実装だけではデータを送信した後にエラーが発生します]{
+# (MainHandlerまで)
 
-from datetime import datetime, timedelta
-from json import dumps
-
-def course_list_key():
-    return ndb.Key('CourseList', 'default_course_list')
-
-class Course(ndb.Model):
-    date = ndb.DateTimeProperty()
-    title = ndb.StringProperty()
-    teacher = ndb.StringProperty()
-    detail = ndb.StringProperty()
-
-class MainPage(webapp2.RequestHandler):
-    def get(self):
-        course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
-        output = self.request.get('output', 'html')
-        if output == 'html':
-            lst = [u'<html><body>']
-            lst.append(u'<h1>講義数合計: {}</h1>'
-                       .format(course_model_list.count()))
-            lst.append(u'<ul>')
-            for course_model in course_model_list:
-                lst.append(u'<li>{}, {}, {}</li>'
-                           .format(course_model.title,
-                                   course_model.teacher,
-                                   course_model.detail))
-            lst.append(u'</ul>')
-            lst.append(u'<a href="/create">Create</a>')
-            lst.append(u'</body></html>')
-            self.response.headers['Content-Type'] = 'text/html; charset=UTF-8'
-            for line in lst: self.response.write(line)
-        else:
-            courses = []  # 空のリスト
-            for course_model in course_model_list:
-                single_course = {'date': str(course_model.date),
-                                 'title': course_model.title,
-                                 'teacher': course_model.teacher,
-                                 'detail': course_model.detail}
-                courses.append(single_course)
-            self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
-            self.response.write(dumps({'course': courses}, ensure_ascii=False))
-
-form_html = u'''\
+form_html = '''\
 <html><body>
 <h1>コース作成画面</h1>
 <form action="/create" method="post">
@@ -1147,90 +1243,42 @@ form_html = u'''\
 </form>
 </body></html>
 '''
-
 class CreateCourse(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html; charset=UTF-8'
         self.response.write(form_html)
 
+
+# CreateCourseの行が増えている点に注意！
 application = webapp2.WSGIApplication([
     ("/create", CreateCourse),
-    ("/.*", MainPage),
+    ("/.*", MainHandler),
 ], debug=True)
 //}
 
-送信するフォームはこれでOKですが、
-受け取る側を作っていません。このままでは「405 Method Not Allowed」
+今回の実装ではMainHandler以外にもうひとつ、
+データを追加するフォーム画面を表示するためのCreateCourseという
+クラスを追加しました。このクラスは@<href>{http://localhost:8080/create}
+に対応するURLへユーザがアクセスした時に、所定のHTMLを表示します。
+
+HTMLフォームでは「method="POST"」で、HTTPのGETリクエストではなく
+POSTリクエストを用いてブラウザがWebサーバにデータを送信するように
+指定しています。なぜPOSTを使うかはすぐに説明します。
+
+これで、送信するフォームがブラウザに表示されるようになります。
+しかし、このフォームからHTTPのPOSTリクエストでデータが送られるのに、
+この実装ではそれを受け取るための関数をを作っていません。
+このままでは「405 Method Not Allowed」
 というエラーメッセージが出ます。
+なお、405番もまた、HTTPで定められたステータスコードの一つです。
 
 //image[method_not_allowed][POSTの受け口を作っていない]{
 //}
 
-というわけで、受ける側を作ります。
+というわけで、CreateCourseクラスにさらに受ける側を作ります。
+get()関数ではなく、今度はpost()関数を作成します。
 
-//emlist[今回作る全部]{
-# -*- coding: utf-8 -*-
-from google.appengine.api import users
-from google.appengine.ext import ndb
-import webapp2
-
-from datetime import datetime, timedelta
-from json import dumps
-
-import logging
-
-def course_list_key():
-    return ndb.Key('CourseList', 'default_course_list')
-
-class Course(ndb.Model):
-    date = ndb.DateTimeProperty()
-    title = ndb.StringProperty()
-    teacher = ndb.StringProperty()
-    detail = ndb.StringProperty()
-
-class MainPage(webapp2.RequestHandler):
-    def get(self):
-        course_model_list = Course.query(ancestor=course_list_key()).order(Course.date)
-        output = self.request.get('output', 'html')
-        if output == 'html':
-            lst = [u'<html><body>']
-            lst.append(u'<h1>講義数合計: {}</h1>'
-                       .format(course_model_list.count()))
-            lst.append(u'<ul>')
-            for course_model in course_model_list:
-                lst.append(u'<li>{}, {}, {}</li>'
-                           .format(course_model.title,
-                                   course_model.teacher,
-                                   course_model.detail))
-            lst.append(u'</ul>')
-            lst.append(u'<a href="/create">Create</a>')
-            lst.append(u'</body></html>')
-            self.response.headers['Content-Type'] = 'text/html; charset=UTF-8'
-            for line in lst: self.response.write(line)
-        else:
-            courses = []  # 空のリスト
-            for course_model in course_model_list:
-                single_course = {'date': str(course_model.date,
-                                 'title': course_model.title,
-                                 'teacher': course_model.teacher,
-                                 'detail': course_model.detail}
-                courses.append(single_course)
-            self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
-            self.response.write(dumps({'course': courses}, ensure_ascii=False))
-
-form_html = u'''\
-<html><body>
-<h1>コース作成画面</h1>
-<form action="/create" method="post">
-講義日: <input type="date" name="date"><br>
-講義名: <input type="text" name="title" size="40"><br>
-講師: <input type="text" name="teacher" size="20"><br>
-詳細: <textarea name="detail" rows="4" cols="50"></textarea><br>
-<input type="submit" value="送信">
-</form>
-</body></html>
-'''
-
+//emlist[CreateCourseの全実装]{
 class CreateCourse(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html; charset=UTF-8'
@@ -1245,7 +1293,7 @@ class CreateCourse(webapp2.RequestHandler):
         title = self.request.get('title')
         teacher = self.request.get('teacher')
         detail = self.request.get('detail')
-        logging.info(u'Saving "{}", "{}", "{}", "{}"'
+        logging.info('Saving "{}", "{}", "{}", "{}"'
                      .format(date, title, teacher, detail))
         new_course = Course(parent=course_list_key(),
                             date=date,
@@ -1254,11 +1302,6 @@ class CreateCourse(webapp2.RequestHandler):
                             detail=detail)
         new_course.put()
         self.redirect('/')
-
-application = webapp2.WSGIApplication([
-    ("/create", CreateCourse),
-    ("/.*", MainPage),
-], debug=True)
 //}
 
  * @<href>{http://localhost:8080/?output=json} でJSON形式の出力が出ることを確認してください。
@@ -1268,38 +1311,44 @@ application = webapp2.WSGIApplication([
  * 本番サーバで講義データを登録します。
  * Androidアプリで講義データが追加されたことを確認します。
 
-なお、index.yamlをアップロードした直後、暫くの間、
-@<img>{need_index_error}や@<img>{need_index_error_2}のようなエラーが
-表示されます。
-この場合、少し様子を見てください。
-GAE側で関連するデータベースのインデックスを作成するのに時間がかかるためです。
+=== なぜ更新はPOSTなのか
 
-//image[need_index_error][]{
-//}
+HTTPにはGETとPOST以外にも他にもリクエストメソッドがありますが、
+本節ではGETとPOSTについてだけ説明しています。
 
-//image[need_index_error_2][]{
-//}
+HTTPのGETとPOSTの最も大きな違いは詳細にはいくつもあります。
+一つの大きな違いは、クライアント(ブラウザ・Androidアプリ)から送信するデータを
+「どのように送るか」です。
 
-=== GET/POST
-
-HTTPには多くのメソッドがありますが、ここではGETとPOSTについてだけ説明します。
-GETとPOSTの最も大きな違いは、
-クライアント(ブラウザ・Androidアプリ)から送信するデータをどう送るかです。
-
-GETリクエストを行った際には、query stringと呼ばれる文字列がURLの末尾にくっつき、
+GETリクエストを行った際には、クエリ文字列と呼ばれる文字列がURLの末尾にくっつき、
 それを用いてWebサーバにデータを伝えます。
-POSTリクエストの場合、データはURLにはつかず、
-HTTPのより深い部分で追加でWebサーバに送信されます。
+POSTリクエストの場合、クエリ文字列も指定できますが、
+同時にHTTPのより深い部分で追加でWebサーバに送信されます。
+具体的にはHTTPリクエストを送る際にリクエストの末尾に続けて
+データを送るのですが、ここでは詳細は省きます。
 
-HTTPの仕様でURLの最大の長さが決まっており、GETで本格的なデータを送ることは
-そもそも不可能です。
-また、短いデータについてもURLの一部として処理されるので、
-Webサーバでキャッシュされたり、あるいはブラウザの履歴に残ったりします。
-セキュリティを意識したいケースではなおさらGETによるデータ送信は行うべきではありません。
+URLの長さの最大値は仕様で決まっており、
+GETで本格的なデータを送ることはそもそも不可能です。
 
-データをクライアントからWebサーバへ送信する際には
-基本的にPOSTを使うのが適切です。
-例外は例えば「どのように表示して欲しい」といった一時データです。
+また、HTTPの仕様ではGETとPOSTでWebサーバが行なって良いことが実は全く異なります。
+今回は意識する機会が全くありませんが、
+例えば「プログラムが計算して出力した結果をGETはキャッシュして良いが、POSTはしてはいけない」といった明快な違いがあります。
+
+これが何を示すかというと「GETでデータを保存させようとすると、
+しばしばWebサーバのどこかで作られるキャッシュのせいで
+データが保存されなかったりする」
+可能性があることを意味します。
+
+こういった部分についての議論を行うためには、
+Webサーバとは何かを本節よりも更に詳細に理解しなければならないため、
+本節で説明することはは控えます。
+ただ「出来るのだからGETで保存する実装を作っても大丈夫」
+と考えるにはまずい理由がある点は、覚えておくと良いでしょう。
+
+HTTPを含めて、Webサーバを取り巻く仕様は、
+シンプルなようでいて実は非常に混乱を招きやすく複雑であることがしばしばです。
+さらに言えば、クライアントやサーバが仕様とは異なる挙動を示すことすらあります。
+
 
 === セキュリティへの配慮
 ==== ログイン機能ととアクセス制御を実装する
@@ -1339,28 +1388,6 @@ appcfg.pyでアップロードした先では、
 @<href>{https://developers.google.com/appengine/docs/python/users/}
 @<href>{https://developers.google.com/appengine/docs/python/users/userclass}
 
-====[column] 認証・認可
-
-以下の2つの用語を区別できると、
-Androidアプリを開発する際にも都合が良いことがあります。
-
- * 認証(Authentication) ... 本人確認, 相手が「誰なのか」を確認する
- * 認可(Authorization) ... アクセス許可, 相手がその操作をして良いかを決定する
-
-実際の生活でも、免許証を見せた上で証明書を発行してもらったりすることが
-あると思います。
-大まかに言えば、免許証を見せることが「認証」で、
-実際に証明書を発行を許可されることが「認可」といった分類です。
-
-Androidアプリ開発でもこの2つを区別したい時があるかもしれません。
-英単語も似ているので混乱しがちですが、「authn」と「authz」と分けると、
-混乱せずに済みます。
-
-プログラミングの世界でも、長らくこのふたつは区別が曖昧でした。
-そのため、今でも混乱するようなAPI等を見ることが多いですが、
-これからの開発者はなるべく意識して使い分けてください。
-
-====[/column]
 ==== https
 
 URLに「http」で始まるケースと「https」で始まるケースがあります。
@@ -1476,7 +1503,7 @@ from xml.sax.saxutils import escape
 .. (中略)
    
             for course_model in course_model_list:
-                lst.append(u'<li>{}, {}, {}</li>'
+                lst.append('<li>{}, {}, {}</li>'
                            .format(escape(course_model.title),
                                    escape(course_model.teacher),
                                    escape(course_model.detail)))
