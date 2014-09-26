@@ -748,9 +748,7 @@ class MainHandler(webapp2.RequestHandler):
 という命令を予め入れておく必要があります。
 @<fn>{about_python_logging}
 
-//footnote[about_python_logging][Pythonのloggingについて詳細に学びたいは、まず
-@<href>{http://docs.python.jp/2/howto/logging.html#logging-basic-tutorial}
-を読むことから始めると良いでしょう。]
+//footnote[about_python_logging][Pythonのloggingについて詳細に学びたいは、まず@<href>{http://docs.python.jp/2/howto/logging.html#logging-basic-tutorial}を読むことから始めると良いでしょう。]
 
 === 本番サーバのダッシュボードとリソース割り当てについて
 
