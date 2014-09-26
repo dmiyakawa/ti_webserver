@@ -624,7 +624,7 @@ Google App Engine Launcherが日本語を含むフォルダの扱いを正しく
 復帰します。
 
 
-=== 講義室内でHello World!
+=== Wi-Fi内でHello World!
 
 同じWi-Fiネットワーク内の他の人にだけサーバを見せたい、
 というケースがあるかもしれません。
