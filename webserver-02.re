@@ -113,9 +113,9 @@ Webサーバ側も修正しつつAndroidアプリを実装するという状況�
 
 シラバスアプリの演習では、
 Webサーバに保存されたJSONデータをVolleyというライブラリを用いてダウンロードし、
-その内容をListViewに表示しました。
+その内容をListViewに表示しました。(@<img>{syllabus-screenshot})
 
-//image[syllabus-screenshot][]{
+//image[syllabus-screenshot][シラバスアプリ]{
 //}
 
 この時に使用したデータ取得URLは、
@@ -258,15 +258,15 @@ Pythonには3で始まる新しいバージョンがありますが、
 @<img>{install-python-beginning}のような画像が表示されるはずです。
 ここでは「Install for all users」が選択された状態で「Next」ボタンを押します。
 
-//image[install-python-beginning][]{
+//image[install-python-beginning][Install for all users]{
 //}
 
 インストール先を確認されます。
-「C:\Python27\」となっていることを確認して「Next」を押します。
+「C:¥Python27¥」となっていることを確認して「Next」を押します。
 
 #@warn(TODO: 出来れば撮り直す。一時ファイルが画面に入っていて実際と異なる)
 
-//image[install-python-destination][]{
+//image[install-python-destination][C:¥Python27¥]{
 //}
 
 @<img>{install-python-add-path-1}のような画面が出たら
@@ -284,7 +284,7 @@ Pythonには3で始まる新しいバージョンがありますが、
 @<img>{install-python-reboot}のように再起動を要求されることがあります。
 このときは、PCを再起動してください。
 
-//image[install-python-reboot][]{
+//image[install-python-reboot][再起動を要求されたらPCを再起動する]{
 //}
 
 以上の作業が終了したら、Python実行環境の動作確認をします。
@@ -302,40 +302,43 @@ Windows画面左下の開始ボタンを押して「コマンド プロンプト
  * @<href>{https://developers.google.com/appengine/downloads}
 
 
-「Google App Engine SDK for Python」をクリックします。
+「Google App Engine SDK for Python」をクリックします。@<img>{install-gae-1}
 
 #@warn(GAEのバージョンが1.9.11から1.9.12に変わった。注意)
 
-//image[install-gae-1][]{
+//image[install-gae-1][Google App Engine SDK for Python]{
 //}
 
 適切なOSのインストーラを選びます。
 
-//image[install-gae-2][]{
+//image[install-gae-2][Windows PCであればWindows版のmsiファイルを選ぶ]{
 //}
 
 ダウンロード後、インストーラを起動します。
 Python 2.7をSDKインストーラが認識していることを確認した上で、
-Nextボタンをクリックします。
+Nextボタンをクリックします。@<img>{install-gae-python-checked}
 
-//image[install-gae-python-checked][]{
+//image[install-gae-python-checked][Next]{
 //}
 
-//image[install-gae-tos][]{
+「End-User License Agreement」では「I accept the terms in the License Agreement」をチェックを入れて、「Next」を押します。
+
+//image[install-gae-tos][「End-User License Agreement」]{
 //}
 
-表示されるチェックボックス3つの全てにチェックが入っていることを確認します。
+インストールフォルダは変更しません。
+表示されるチェックボックス3つの全てにチェックが入っていることを確認して、
+「Next」を押します。
 
-//image[install-gae-all-checked][]{
+//image[install-gae-all-checked][3つのチェックが入っていること]{
 //}
 
 最後にInstallボタンをクリックします。
 
-//image[install-gae-do-install][]{
+//image[install-gae-do-install][Install]{
 //}
 
-Install中、ダウンロードしたソフトウェアを信用するかどうかを
-確認するシステムダイアログが表示されることがあります。
+Install中、ダウンロードしたソフトウェアを信用するかどうかを確認するシステムダイアログが表示されます
 このときは、「確認済みの発行元」が「Google Inc」となっていることを
 確認した上で、「はい」を押します。
 
@@ -357,7 +360,8 @@ GAE SDKのインストールに成功しています。
 
 === ローカルサーバでHello World!
 
-ここで、"Hello world!"と表示するだけのサーバを作成しましょう。
+GAEのプロジェクトを作成し、"Hello world!"と表示するだけの
+Webサーバを作成しましょう。
 
 Google App Engine Launcherで「File >> Create New Application」を選択します。
 
@@ -365,27 +369,27 @@ Google App Engine Launcherで「File >> Create New Application」を選択しま
  ** ここでは一部の文字、例えば半角大文字は使用できません。
  ** 半角英数字だけで構成するのがベストです。
  * Parent Directory を「デスクトップ」に設定します。
- ** 日本語ユーザである場合は、コラムの注意を参考にして、新しく用意したフォルダを設定します。
+ ** 日本語ユーザである場合は、別途用意したフォルダを設定します。
 
-//image[create-helloworld][]{
+//image[create-helloworld][Application Nameは今回はhelloworldとした]{
 //}
 
 作成できたらそのプロジェクトを選択し「Run」をクリックします。
 
-//image[run-helloworld][]{
+//image[run-helloworld][helloworldプロジェクトが出来た]{
 //}
 
 成功すると、プロジェクトの左にある小さなアイコンが
 緑色の「再生ボタン」のようになります。
 
-//image[running-helloworld][]{
+//image[running-helloworld][helloworldの横の緑の「再生ボタン」に注目]{
 //}
 
-この状態でブラウザから「http://localhost:8080」を開きます。
+この状態でブラウザから「@<href>{http://localhost:8080}」を開きます。
 
 "Hello world!"と表示されたら、成功です。
 
-//image[seeing-helloworld][]{
+//image[seeing-helloworld][Webブラウザで@<href>{http://localhost:8080}を開く]{
 //}
 
 8000番で、このプロジェクトの管理用Webページを開くこともできます。
@@ -397,7 +401,7 @@ Google App Engine Launcherで「File >> Create New Application」を選択しま
 これを停止するには、GAE Launcherから「Stop」ボタンを押します。
 「再生」ボタンが黒い丸印になれば、サーバプロセスが停止しています。
 
-//image[stopped-helloworld][]{
+//image[stopped-helloworld][サーバ停止時には左端のマークは黒い丸印]{
 //}
 
 入力したURLについて説明します。
@@ -429,26 +433,26 @@ Pythonの開発には若干不適切です。
 右側の「Community Edition」を選択してダウンロードし、
 インストーラを実行し、指示に従います。
 
-//image[pycharm-select-page][]{
+//image[pycharm-select-page][PyCharmのダウンロードページ。無料版は右側のCommunity Edition]{
 //}
 
 途中で表示される「Create Desktop shortcut」
 (デスクトップにショートカットを作成する)
 のチェックボックスをつけておくと良いでしょう。
 
-//image[pycharm-installer-create-desktop-shortcut][]{
+//image[pycharm-installer-create-desktop-shortcut][Create Desktop shortcutのチェックをつけておくと、演習を効率的に行える。]{
 //}
 
 最後に「Run PyCharm Community Edition」(PyCharm Community Editionを起動する)
 にチェックボックスを入れて「Finish」を押します。
 
-//image[pycharm-installer-run-pycharm][]{
+//image[pycharm-installer-run-pycharm][Run PyCharm Community Editionをチェックして、Finish]{
 //}
 
 初回起動時に@<img>{pycharm-complete-installation}のような表示が出ます。
 今回はそのまま「OK」を押します。
 
-//image[pycharm-complete-installation][]{
+//image[pycharm-complete-installation][初回起動時に表示される。そのままOK]{
 //}
 
 さらに@<img>{pycharm-first-configuration}のような画面が出ます。
@@ -456,43 +460,43 @@ Pythonの開発には若干不適切です。
 「Keymap scheme」を適切に変更します。
 なお、この設定は後述する通り、変更可能です。
 
-//image[pycharm-first-configuration][]{
+//image[pycharm-first-configuration][初回起動時に開発環境の初期設定をどうするか、聞かれる]{
 //}
 
 最後に@<img>{pycharm-welcome}のような画面が出れば
 PyCharmの起動が成功しています。
 
-//image[pycharm-welcome][]{
+//image[pycharm-welcome][起動成功]{
 //}
 
 なお、PCによっては@<img>{pycharm-firewall}のような
 警告が表示されることがあります。
 ここではそのまま「アクセスを許可する」ボタンを押します。
 
-//image[pycharm-firewall][]{
+//image[pycharm-firewall][Windowsのファイアウォールの設定によっては警告を発することがある]{
 //}
-
-さらに@<img>{pycharm-tip-of-the-day}のような
-ダイアログが表示されることがあります。
-
-//image[pycharm-tip-of-the-day][]{
-//}
-
-今回は左下の「Show Tips on Startup」(起動時にTips画面を表示する)のチェックを
-外して、「Close」ボタンを押します。
 
 既にhelloworldプロジェクトを作っていますので、ここではそれを
 PyCharm上で編集してみましょう。
 「Open Directory」を選択し、helloworldプロジェクトが存在するフォルダを開きます。
 
-//image[pycharm-select-helloworld][]{
+//image[pycharm-select-helloworld][helloworldプロジェクトの場所を指定する]{
 //}
 
 @<img>{pycharm-helloworld}のような画面が出れば、
 プロジェクトを開けたことになります。
 
-//image[pycharm-helloworld][]{
+//image[pycharm-helloworld][helloworldプロジェクトをインポートした様子。画面左側に注目]{
 //}
+
+ここで@<img>{pycharm-tip-of-the-day}のような
+ダイアログが表示されることがあります。
+
+//image[pycharm-tip-of-the-day][PyCharmのTipsを表示してくれるが、今回は不要]{
+//}
+
+今回は左下の「Show Tips on Startup」(起動時にTips画面を表示する)のチェックを
+外して、「Close」ボタンを押します。
 
 PyCharmは同じく統合開発環境であるEclipseと似た外見をしています。
 しかし、全く一致した使い勝手というわけではありません。
@@ -503,10 +507,10 @@ PyCharmは同じく統合開発環境であるEclipseと似た外見をしてい
  * 起動時にkeymapを変更していない場合「File >> Settings >> Keymap」でKeymapsを「Eclipse」に変更すると、Eclipse風になります。@<img>{eclipse_keymap}ただし全てがEclipseと同じになるわけではありません。
  * 「File >> Settings >> (左画面IDE Settingsの) Editor >> Editor Tabs >> Mark modified tabs with asterisk」のチェックを入れておくと、Eclipseの時と同様保存されていないファイルのタブに*(スター、もしくはアスタリスク)が付きます。@<img>{asterisk}
 
-//image[eclipse_keymap][]{
+//image[eclipse_keymap][Eclipseキー配列「風」にする]{
 //}
 
-//image[asterisk][]{
+//image[asterisk][ファイルの変更を保存していない時に気づきやすくなる]{
 //}
 
 ここまででようやくPythonでプログラミングする準備が整いました。
@@ -612,7 +616,7 @@ MainHandlerクラスが受け持つことになっています。
 
 //footnote[gae_responsible_for_404][実装がない際の表示はGAE Pythonのローカルサーバが出しています。]
 
-//image[my_own_404][]{
+//image[my_own_404][404]{
 //}
 
 「全てのパスをこのMainHandlerクラスがが受け持つ」ように実装を変更してみましょう。
@@ -652,7 +656,7 @@ Webページが正しく存在している時、
 なお、404 Not Foundの場合でもコンテンツを返せないわけではありません。
 GitHubのWebサイトで存在しないページへアクセスした時の例を@<img>{github_not_found}示します。
 
-//image[github_not_found][]{
+//image[github_not_found][GitHubの404 Not Foundは絵付き]{
 //}
 
 GAEでも、ステータスコードをPython実装上で指定したり、
@@ -677,7 +681,7 @@ Webアプリのための「アプリケーションID」を取得します。
 
 "Create Application"をクリックします。
 
-//image[gae-web-console][]{
+//image[gae-web-console][ブラウザから「Create Application」]{
 //}
 
 @<img>{gae-app-id}で、Application Identifierとして
@@ -686,7 +690,7 @@ Webアプリのための「アプリケーションID」を取得します。
 これはそのまま公開するサーバ名になるので、
 おかしな名前も避けたほうが良いでしょう。
 
-//image[gae-app-id][]{
+//image[gae-app-id][他のユーザが使っていないIDを決める。URLに含まれるので注意。]{
 //}
 
 アプリケーションIDを考えたら、
@@ -699,12 +703,12 @@ Google App Engineの利用規約が表示されている場合は内容を確認
 
 最後に、最下段の"Create Application"ボタンを押します。
 
-//image[gae-ti-dmiyakawa][]{
+//image[gae-ti-dmiyakawa][Create Application]{
 //}
 
 成功すると次のような画面がでます。
 
-//image[gae-project-creation-successful][]{
+//image[gae-project-creation-successful][出来た。]{
 //}
 
 "Application Registered Successfully"と出たら、PyCharmでapp.yamlを開き、
@@ -756,7 +760,7 @@ GAE Launcherには「Dashboard」というボタンもあります。
 このボタンを押すと、本番サーバの管理者画面をブラウザに表示してくれます。
 ここから本番サーバでのログ出力も見ることができます。
 
-//image[gae-dashboard][]{
+//image[gae-dashboard][GAEのダッシュボード]{
 //}
 
 Google App Engineは小規模なサーバを起動する分には無料で利用できます。
@@ -764,7 +768,7 @@ Google App Engineは小規模なサーバを起動する分には無料で利用
 が決まっており、その範囲内のアクセスであれば料金はかかりません。
 割り当てとその消費量は「Quota Details」から見ることができます。
 
-//image[quota][]{
+//image[quota][Quota(割り当て)]{
 //}
 
 第三者からの大量のアクセスがあったりした際に、
@@ -919,7 +923,7 @@ application = webapp2.WSGIApplication([
 ローカルサーバ(@<href>{http://localhost:8080})から、
 JSON形式のデータを閲覧出来ることをブラウザを用いて確認してください。
 
-//image[json-on-browser][]{
+//image[json-on-browser][JSONをブラウザから見る]{
 //}
 
 問題無さそうであれば、
@@ -985,7 +989,7 @@ Chromeでは「デベロッパーツール」と呼ばれています。
 JSONデータを表示したChromeで右クリックをし「要素を検証」をクリックしてください。
 すると、Chromeの下方にデベロッパーツールが表示されます。
 
-//image[developer-tools][]{
+//image[developer-tools][Chromeのデベロッパーツール]{
 //}
 
 試しに「Network」タブを選択し、その状態でWebページを再読み込みしてみてください。
@@ -1062,16 +1066,15 @@ class Course(ndb.Model):
     teacher = ndb.StringProperty()
     detail = ndb.StringProperty()
 
-# MainHandler
+# (MainHandlerの実装が続く)
 //}
 
 保存する形式にはプログラミング言語と似たデータ型があります。
 GAEのDatastoreで利用できるデータ型は@<href>{https://developers.google.com/appengine/docs/python/ndb/properties}に掲載されています。
 今回は「日付」に対応するデータと文字列データさえあれば事足ります。
 
-course_list_key()関数は、GAE内で本来バラバラで保存されている
-データをひとまとめにするおまじないとでも考えてください。
-すぐ後で使います。
+course_list_key()関数は、GAE特有のおまじないとでも考えてください。
+この関数自体はすぐ後で使うため、省略しないように。
 
 GAEではここでさらに、データを順序立てて検索するために
 「インデックス」と呼ばれるデータを用意する必要があります。
@@ -1115,44 +1118,45 @@ application = webapp2.WSGIApplication([
 ここではまだ講義データを一切登録していないので、
 JSONは以下のような「空」のコース一覧を表示します。
 
-//emlist[結果はこうなる]{
+//emlist[結果は空の結果を持つJSON]{
 {"course": []}
 //}
 
-なお、本番サーバへindex.yamlを最初にアップロードした後、
-暫くの間@<img>{need_index_error}のように
+なお、本番サーバへindex.yamlを最初にアップロードした後しばらくの間は、
+@<img>{need_index_error}のように
 「NeedIndexError: The index for this query is not ready to serve. ...」(検索に使うインデックスが準備できていません)というエラーが表示されます。
-この場合は、少し様子を見てください。
-GAE側で関連するデータベースのインデックスを作成するのに時間がかかるためです。
+これが発生するのは、GAEでデータを取得する際にインデックス(索引)が必要で、
+それをGAE自身が用意するのに少し時間がかかるためです。
+大体数分程度待てばエラーはなくなります。
 
-//image[need_index_error][]{
+//image[need_index_error][NeedIndexError]{
 //}
 
 なお、似たようなエラーとして「NeedIndexError: no matching index found.」(一致するインデックスがありません)というエラーメッセージが出ることがあります。
 この場合はPythonプログラムで指定しているソートの方法とindex.yamlで生成しているインデックスが一致していません。
 つまりプログラミング上に何か間違いがあります。
 
-JSONデータが空なのは残念ですが、
-JSONデータを追加する方法について考える前に、
-先にHTMLで講義データを表示する実装も作ってしまいましょう。
-さらに次で使えるように、HTMLの画面では、
-次に作る「講義の登録」画面のためのHTMLタグも入れてしまいます。
+講義作成画面が欲しいところですが、
+その前にHTMLで講義データを表示する実装も作っておきます。
+講義作成画面を実装した際、ユーザからすぐにそれを使えるように、
+HTMLに次に作る画面のためのHTMLタグも入れてしまいます。
 
-これまでは、言ってみればWebサーバのトップページがJSON形式のデータを
-出力していましたが、ここでHTMLとJSONの両方を出力するように変更します。
-URLには、パスの後に「?」をつけると、
-以降に「クエリ文字列」という文字列を追加することができます。
-この仕組みを利用して、以下のような動作に変更します。
+これまでは、WebサーバのトップページがJSON形式のデータを出力していました。
+ここで、HTMLとJSONの両方を出力するように変更します。
+URLのパスの後に「?」をつけると、その後に「クエリ文字列」という
+文字列を追加することができ、サーバに簡単な追加のデータを送ることができます。
+一つのURLでHTMLとJSONを同時に送ってもクライアントが混乱するだけですから、
+helloworldサーバの挙動をクライアントから見た場合の挙動を、
+以下のように変更します。
 
  * 何も指定がなければHTMLを返す (例 @<href>{http://localhost:8080/})
  * 「output=json」 というクエリ文字列をつけたらJSONを返す (例 @<href>{http://localhost:8080/?output=json})
 
-GAEでは「self.request.get('output')」といった形で簡単にクエリ文字列の
-「キー」と「値」の組み合わせを取得できます。
-特に今回は「指定がなかったらHTMLを返す」という動作にするため、
-もしキーと値の組がなければhtmlが送られてきたことにするため
+GAEでは「self.request.get('output')」といった形式でで、
+クエリ文字列の「キー」と「値」の組み合わせを簡単に取得できます。
+特に今回は「指定がなかったらHTMLを返す」という動作を実現するため、
 「self.request.get('output', 'html')」と書くことにします。
-get()関数の第二引数は「存在しない場合のデフォルト値」です。
+get()関数の第二引数は「キーが存在しない場合のデフォルト値」です。
 
 この値を元にif文で分岐をすれば良さそうです。
 
@@ -1211,13 +1215,13 @@ app = webapp2.WSGIApplication([
 Pythonではインデントがブロックの範囲を表すので、
 既にあるJSON側の実装のインデントを1段階下げるのも忘れないようにしてください。
 
-この変更で、JSONを受け取るURLが変わった点に特に注意してください。
-これ以降、アプリ側で結果を見たい場合は、
-Androidのシラバスアプリで指定したURLの末尾に
+この「仕様変更」によって、講義表のJSON形式データを受け取るURLが
+変わった点にも注意してください。
+これ以降、Androidアプリ側で結果を取得するURLの末尾には
 "?output=json" をつけておく必要があります。
 もっとも、今の時点ですと空のListViewが出てくるだけですが……。
 
-//emlist[しらばす]{
+//emlist[HTMLに関わる変更で、シラバスアプリのURLの末尾に「?output=json」が必要となる。]{
 private static final String syllabusUrl = "http://(ID).appspot.com/?output=json";
 //}
 
@@ -1270,10 +1274,10 @@ application = webapp2.WSGIApplication([
 に対応するURLへユーザがアクセスした時に、所定のHTMLを表示します。
 
 HTMLフォームでは「method="POST"」で、HTTPのGETリクエストではなく
-POSTリクエストを用いてブラウザがWebサーバにデータを送信するように
-指定しています。なぜPOSTを使うかはすぐに説明します。
+POSTリクエストを用いてブラウザがWebサーバにデータを送信するように指定しています。
+なぜGETリクエストではなくPOSTリクエストを使うかは、すぐに説明します。
 
-これで、送信するフォームがブラウザに表示されるようになります。
+ここまでの変更で、送信するフォームがブラウザに表示されるようになります。
 しかし、このフォームからHTTPのPOSTリクエストでデータが送られるのに、
 この実装ではそれを受け取るための関数をを作っていません。
 このままでは「405 Method Not Allowed」
@@ -1319,7 +1323,11 @@ class CreateCourse(webapp2.RequestHandler):
  * 本番サーバで講義データを登録します。
  * Androidアプリで講義データが追加されたことを確認します。
 
-=== なぜ更新はPOSTなのか
+以上で講義情報を追加できるだけの「シラバスサービス」が出来たことになります。
+実際に使うのであれば編集と削除機能が必要なところですが、
+演習の本質から外れてしまうので演習課題としましょう。
+
+===[column] なぜ更新はPOSTリクエストで行うのか
 
 HTTPにはGETとPOST以外にも他にもリクエストメソッドがありますが、
 本節ではGETとPOSTについてだけ説明しています。
@@ -1357,17 +1365,38 @@ HTTPを含めて、Webサーバを取り巻く仕様は、
 シンプルなようでいて実は非常に混乱を招きやすく複雑であることがしばしばです。
 さらに言えば、クライアントやサーバが仕様とは異なる挙動を示すことすらあります。
 
+===[/column]
 
-=== セキュリティへの配慮
-==== ログイン機能ととアクセス制御を実装する
+
+== 追加トピック
+
+「シラバスアプリと通信できるWebサーバを作る」という目標は達成されました。
+本章では参考のためのトピックを2つ取り扱います。
+
+ * セキュリティ
+ * CSSとテンプレートを用いたWebサーバの改善
+
+=== セキュリティ
+
+Webサーバが出来上がったところですが、
+実際のサービスでこのWebサーバを公開したら、
+機能がないだけでなく「セキュリティ」の面でも即座にトラブルに見舞われるはずです。
+
+現時点でも理解できる問題をいくつか挙げます
+
+
+==== ログイン機能ととアクセス制御を実装するには
 
 現在は誰が来てもこの講義表を見ることができます。
-これは問題ありませんが、さらに誰でもこの講義情報を増やせます。
-特に後者は大問題です。
+これはまだ問題ありませんが、さらに誰でも講義を追加することができます
+こちらは大問題です。
 
-GAEではGoogleアカウントによるログイン処理をを実装するのは簡単です。
-"Hello world!"の代わりにユーザの名前を表示する方法を
+GAEではGoogleアカウントによるログイン処理を実装するのは簡単です。
+試しに、"Hello world!"の代わりにユーザの名前を表示する方法を
 @<list>{helloworld_with_login}に示します。
+
+一旦シラバスアプリを離れて、ただのHello Worldサーバに
+ログイン機能を追加した例を挙げます。
 
 //list[helloworld_with_login][ログインを実装する]{
     def get(self):
@@ -1382,19 +1411,99 @@ GAEではGoogleアカウントによるログイン処理をを実装するの�
 //image[gae_local_with_login][ローカルサーバのログイン画面]{
 //}
 
-ローカルサーバではどのようなアドレスであっても構いません。
-appcfg.pyでアップロードした先では、
-本当のGoogleアカウントでログインする必要があります。
+ローカルサーバでもユーザ名(eメールアドレス)とパスワードを聞かれますが、
+こちらはどのようなメールアドレスであっても動作します。
+本番サーバでは、実際のGoogleアカウントでログインする必要があります。
 
 講義表を公開するのまでは良いとして、講義表を編集するページだけは、
 特定の人が利用できるようにするのが適切でしょう。
 例えば user.user_id() を用いて、自分がログインした際の「User ID」を把握し、
 それ以外のユーザから来た際にはアクセスを拒否するといった実装が考えられます。
+実際に実装する部分は追加課題とします。
 
 ログイン関連APIの詳細は以下のWebページに説明があります。
 
 @<href>{https://developers.google.com/appengine/docs/python/users/}
 @<href>{https://developers.google.com/appengine/docs/python/users/userclass}
+
+
+==== クロスサイト・スクリプティング脆弱性とセキュアプログラミング
+
+シラバスサービスが受け入れる講師名といった文字列にHTMLタグを入力すると、
+どうなるでしょうか。
+試しに「<script>alert("Hello");</script>」などと入れてみましょう。
+
+//image[injection-1][HTMLタグを名前として入力する]{
+//}
+
+すると、その文字列が表示される代わりに、JavaScriptプログラムが
+実行され、アラートダイアログが表示されてしまいます。
+明らかにシラバスサービスが意図していない挙動です。
+
+//image[injection-2][クロスサイト・スクリプティング攻撃が成功している]{
+//}
+
+これはいわゆる「クロスサイト・スクリプティング(XSS)」と
+呼ばれる立派なWebサイト攻撃方法の一つです。
+サービスが攻撃を受けるところまでは仕方ありませんが、
+その攻撃が成功してしまうのはいけません。
+
+今回は一見すれば無害ですが、
+大手のWebアプリケーションでこのようなバグがあると、
+しばしばパスワード漏洩やありとあらゆる問題の温床になります。
+一般にこのようなセキュリティに関するバグを「脆弱性」と言います。
+
+言い方を変えると、これまで実装したシラバスサービスには
+クロスサイト・スクリプティング脆弱性が存在します。
+
+例えば、今回の講義が秘密の講義表を持っていたとしましょう。
+ログイン機能によって秘密を守っていたかと思いきや、
+今回のような脆弱性がWebアプリケーションの「どこかに」あったとします。
+すると、そこに今回のように任意の「プログラム」をHTMLに
+第三者が埋め込めてしまえると、秘密の講義表はそのプログラムによって
+覗き見られてしまいます。
+Webサーバからすれば、認証情報を持っているブラウザが講義表を覗いていることに
+なるので講義表を見せない理由がありません。
+悪意のあるプログラムは、講義表をまた別のサーバに送信すれば良いわけです。
+
+ユーザから得られるデータをHTMLに埋め込む場合、
+最低でも5種類の文字を適切に書き換える必要があると言われています。
+
+ * 「&」 ... 「&amp;」に変更 (英語のampersandから)
+ * 「"」 ... 「&quot;」に変更 (英語のquoteから)
+ * 「'」 ... 「&apos;」に変更 (英語のapostropheから)
+ * 「>」 ... 「&gt;」に変更 (英語の greater than から)
+ * 「<」 ... 「&lt;」 に変更 (英語の less than から)
+
+これに相当する対策としてxml.sax.saxutils.escape()関数を使うことが挙げられます。
+以下に例を挙げます。
+@<fn>{about_template}
+
+//footnote[about_template][追加演習で登場する「テンプレート」の仕組みを用いる場合はこの処理は必要ありません。テンプレートエンジンが自動的にエスケープを行うからです。]
+
+//emlist[escape()を使う]{
+# 以下の行を追加するのを忘れないように
+from xml.sax.saxutils import escape
+
+# (略)
+   
+            for course_model in course_model_list:
+                lst.append('<li>{}, {}, {}</li>'
+                           .format(escape(course_model.title),
+                                   escape(course_model.teacher),
+                                   escape(course_model.detail)))
+# (略)
+//}
+
+Webアプリを開発する場合には、
+今回出会った「クロスサイト・スクリプティング脆弱性」以外にも
+いくつか「定番」の脆弱性を作りこみがちです。
+
+IPA(情報処理推進機構)がWebアプリケーションを作成する際に
+発生しがちな脆弱性についての情報を公開していますので、
+本格的なWebサーバを作りこむ場合には、事前に目を通しておく方が無難です。
+
+@<href>{https://www.ipa.go.jp/security/vuln/websecurity.html}
 
 ==== https
 
@@ -1457,83 +1566,8 @@ Webサーバを真面目に設計する際には、
 アプリ開発者としてWebサーバからデータを取得する場合には、
 こういった点にも注意を払えるとセキュアなアプリを作る第一歩になります。
 
-==== クロスサイト・スクリプティング脆弱性とセキュアプログラミング
 
-ここでHTMLタグを講師名等に入れるとどうなるでしょうか。
-試しに<script>alert("Hello");</script>などと入れてみましょう。
-
-//image[injection-1][]{
-//}
-
-こんなのがでます。
-
-//image[injection-2][]{
-//}
-
-これはいわゆる「クロスサイト・スクリプティング(XSS)」と
-呼ばれる立派なWebサイト攻撃方法の一つをWebサーバが受けたことを意味します。
-そして同時に攻撃が「成功」していることも意味します。
-なお、攻撃を受けるところまでは日常と考えてください。
-一方、攻撃が「成功」してしまうのは、日常であってはいけません。
-
-今回は「Hello」としか出て来ませんが、
-大手のWebアプリケーションでこのようなバグ(「脆弱性」と呼ばれます)は、
-しばしばパスワード漏洩やありとあらゆる問題の温床になります。
-
-例えば、今回の講義が秘密の講義表を持っていたとしましょう。
-ログイン機能によって秘密を守っていたかと思いきや、
-今回のような脆弱性がWebアプリケーションの「どこかに」あったとします。
-すると、そこに今回のように任意の「プログラム」をHTMLに
-第三者が埋め込めてしまえると、秘密の講義表はそのプログラムによって
-覗き見られてしまいます。
-Webサーバからすれば、認証情報を持っているブラウザが講義表を覗いていることに
-なるので講義表を見せない理由がありません。
-悪意のあるプログラムは、講義表をまた別のサーバに送信すれば良いわけです。
-
-ユーザから得られるデータをHTMLに埋め込む場合、
-最低でも5種類の文字を適切に書き換える必要があると言われています。
-
- * 「&」 ... 「&amp;」に変更 (英語のampersandから)
- * 「"」 ... 「&quot;」に変更 (英語のquoteから)
- * 「'」 ... 「&apos;」に変更 (英語のapostropheから)
- * 「>」 ... 「&gt;」に変更 (英語の greater than から)
- * 「<」 ... 「&lt;」 に変更 (英語の less than から)
-
-これに相当する対策としてxml.sax.saxutils.escape()関数を使うことが挙げられます。
-以下に例を挙げます。
-@<fn>{about_template}
-
-//footnote[about_template][追加演習で登場する「テンプレート」の仕組みを用いる場合はこの処理は必要ありません。テンプレートエンジンが自動的にエスケープを行うからです。]
-
-//emlist[escape()を使う]{
-from xml.sax.saxutils import escape
-
-.. (中略)
-   
-            for course_model in course_model_list:
-                lst.append('<li>{}, {}, {}</li>'
-                           .format(escape(course_model.title),
-                                   escape(course_model.teacher),
-                                   escape(course_model.detail)))
-//}
-
-Webアプリを開発する場合には、
-今回出会った「クロスサイト・スクリプティング脆弱性」以外にも
-いくつか「定番」の脆弱性を作りこみがちです。
-
-幸い、IPA(情報処理推進機構)がWebアプリケーションを作成する際に
-発生しがちな脆弱性についての情報をまとめていますので、
-Webプログラミングに興味がある方は一度目を通すとよいかもしれません。
-
-@<href>{https://www.ipa.go.jp/security/vuln/websecurity.html}
-
-Androidアプリ側でもセキュリティについて考慮するべき点はたくさんあるため、
-受講生はどちらかといえばWebアプリケーションの事情よりも、
-そちらを優先するべきと考えられます。
-そういった諸々のお話は「セキュリティ」の章で扱います。
-
-
-=== HTMLの描画にテンプレートとCSSを使う
+=== HTMLテンプレートとCSSを使ったWebサーバの改善
 
 本演習の範囲では「見栄え」を意識することはありませんでした。
 とにかく表示されれば良かったのです。
@@ -1630,15 +1664,19 @@ HTMLを直接出力する必要がなくなるので、こちらの実装は簡�
 
 これで見栄えがだいぶ変わります。
 
-また、前述した「クロスサイト・スクリプティング攻撃」を避けるための
-エスケープ処理を行う必要がありません。
-なぜなら、テンプレートエンジンは与えられた文字列をチェックし、
-自動的にエスケープ処理を実行してくれるからです。
+また、単に見栄えが良くなるだけではなく、
+実はセキュリティという面からも若干改善があります。
 
+テンプレートを用いたこのバージョンノ場合、
+前述した「クロスサイト・スクリプティング攻撃」を避けるための
+エスケープ処理をPython実装側で行う必要がありません。
+
+テンプレートエンジンは与えられた文字列をチェックし、
+自動的にエスケープ処理を実行してくれるからです。
 もしエスケープを解除したいケースがあるようであれば、
 そのときだけ明示的にエスケープをしないように指定します。
 
-プログラミングミスを全て回避することは難しいでしょう。
+プログラミングミスを全て回避することは熟練者でも難しいと言えます。
 jinja2テンプレートエンジンが採用している
 「していなければエスケープして安全よりに倒す」
 という方式の方が、安全なプログラミングとしては、より適切と言えます。
@@ -1646,94 +1684,48 @@ jinja2テンプレートエンジンが採用している
 さらにこのテンプレートではCSSテンプレートを使っているため、
 ボタン等の見栄えもちょっと変わります。
 
-時間があれば、講義作成画面も、
-テンプレートを使って見栄えを変えてみましょう。
+時間があれば、講義作成画面も、テンプレートを使って見栄えを変えてみましょう。
 
 参考:
 @<href>{https://developers.google.com/appengine/docs/python/gettingstartedpython27/templates}
 
-== 参考: シラバスアプリを拡張するには
+===[column] Androidアプリから講義データを編集可能にするには
 
-講義の範囲からは離れますが、
-今回のシラバスアプリとサーバを拡張するためにどうすればよいかを考えてみると、
-次に勉強するべき内容が分かるかもしれません。
+講義表をAndroidアプリから直接操作出来るようにしたいとした場合、様々な案が考えられます。
+例えばWebViewを用いてブラウザを起動してしまえば良い、という考え方もあります。
 
-まず、現在明らかに不足している機能として、
-操作を許可されているユーザからWebページを経由して
-削除や編集を行うことが出来ません。
-これですと、GAEの管理コンソールから直接データを削除する以外には
-データを変更する方法がありません。
-Python実装中で操作を行うには、Datastore APIについてより
-深く理解する必要がありますが、それでも、さほど難しくはないでしょう。
-
-@<href>{https://cloud.google.com/appengine/docs/python/ndb/}
-
-講義表をアプリから操作出来るようにしたいとした場合、
-これよりも複雑で時間のかかる作業が必要になります。
-
-まず何より、講義表を変更するActivityが実装されていません。
+ここでは、これまでAndroidアプリ開発の延長として、Androidの通常のActivityとLayoutから
+講義表を変更するにはどうするか、を考えてみましょう。
+その場合、まず、講義表を変更するActivityが実装されていません。
 EditText等を使って自分で準備する必要があります。
 そのためのIntentについても考えなければなりません。
 
 より本質的な課題として「どのように認証・認可を行うか」があります。
-ブラウザのセッションは
-Androidアプリ(より的確には「Androidのネイティブアプリ」)
-でそのまま再利用するのは通常出来ません。
+ブラウザのセッションはAndroidアプリ(より的確には「Androidのネイティブアプリ」)
+でそのまま再利用することは出来ません。
 
-Androidアプリで編集を許可するもっとも単純な方法は
-「アカウントに紐付いた専用の秘密の文字列を準備する」ことです。
+Androidアプリで編集を許可するもっとも単純な方法一つは
+「アカウントに紐付いた専用の秘密の文字列をWebサーバが提供する」
+ことです。
 アプリから特定のURLに向けてGETやPOSTリクエストを投げる際、
 クエリ文字列などでその情報を含めます。
 すでに議論した通り、通信を暗号化するhttpsを用いるべきです。
 実際、ある種のWebアプリケーションはこのような方法を用います。
 
-より高度な方法として、Android端末に紐付いたGoogleアカウント
-を用いて認証を行い、それを元に認可のためのトークンをやりとりする方法があります。
-本講義全体でもほぼ扱われていない比較的高度なトピックですが、
-時間があればチャレンジしてみても良いでしょう。
+より高度な方法として、Android端末に紐付いたGoogleアカウントを用いて認証を行い、それを元に操作承認のためのトークンをやりとりする方法があります。
 
- * まず OAuth2 という技術を知っておくべきです。
- * AndroidのAccountManagerについて知っておくほうが良いでしょう。
- * 以上を元に、@<href>{https://developer.android.com/intl/ja/google/auth/http-auth.html}や@<href>{http://blog.notdot.net/2010/05/Authenticating-against-App-Engine-from-an-Android-app}の内容を参考にして、Android端末に紐付いているGoogleアカウントの情報を取得し、認証してみましょう。
- * どのように「認可」するかも併せて考える必要があります。
+ * まず OAuth2 という技術を理解しましょう
+ * @<href>{https://developer.android.com/intl/ja/google/auth/http-auth.html}や@<href>{http://blog.notdot.net/2010/05/Authenticating-against-App-Engine-from-an-Android-app}の内容を参考にして、Android端末に紐付いているGoogleアカウントの情報を取得し、認証してみましょう。
 
-Webサーバの立場からすると、
-後者の方が「優れている」といつも言えるわけではない点は指摘しておきます。
-仮に以下のようなアイディアが湧いたら、紹介した高度な方法の実装は再利用できないかもしれません (かろうじて、OAuth2という仕組みはオープンスタンダードのため、この知識はつぶしが利きます)
+Webサーバの基礎的な内容からは乖離しているので、今回はここまでとします。
 
- * 他のスマートフォンでも講義を管理したい
- * Twitterや他のソーシャルサービスのアカウントを利用したい
- ** AccountManagerにアカウント管理機能を提供しているソーシャルサービスであれば、この方法は再利用出来る可能性が若干あります。
-
-いずれにしても、すでに基礎的な内容からは相当乖離してますので、
-今回はここまでとしましょう。
-
+===[/column]
 
 == 関連書籍・URL
 
-本節ではWebサーバを作る上で最小限把握して欲しい内容をまとめました。
-Androidアプリから状況を把握する上ではこれで十分でしょう。
+本章は、Androidアプリ開発者がWebサーバを理解する上で理解の入り口と出来そうな内容を中心にまとめました。
+実際にはHTTPの仕様その他、知るべきことがたくさんあります。
 
 @<href>{https://github.com/TechBooster/AndroidOpenTextbook}
-に、本節では説明していない要素も含めたやや詳細な内容を掲載していますので、
-参照してみてください。
-そちらでは別のアプリケーションを題材に、GAE Pythonとは異なる
-Webフレームワーク「Django」を紹介しています。
-
-2014年10月現在、
-@<href>{https://tcb.mowa-net.jp/griflet/github/TechBooster/AndroidOpenTextbook/}
-から上記のPDF版やHTML版を得ることができます。
-
-Webサーバの技術を理解するにはインターネットもしくは「ネットワーク」についての
-知識が必要になります。
-さらなる詳細については、例えば以下のような書籍を参照してください。
-
- * @<href>{https://www.ipa.go.jp/security/vuln/websecurity.html}
- * マスタリングTCP/IP 入門編 第5版 http://www.amazon.co.jp/dp/4274068765
- * マスタリングTCP/IP 情報セキュリティ編 http://www.amazon.co.jp/dp/4274069214/
- * コンピュータネットワーク 第5版 http://www.amazon.co.jp/dp/482228476X
- * Webを支える技術 http://www.amazon.co.jp/dp/4774142042/
- * 安全なWebアプリケーションの作り方 http://www.amazon.co.jp//dp/4797361190/
- ** PHPというWeb開発で使われるまた異なる言語が使われていますが、参考になります
-
-
+に、実際のWebサーバ入門となる基本的な内容を含めています。
+上記のPDF版やHTML版を@<href>{https://tcb.mowa-net.jp/griflet/github/TechBooster/AndroidOpenTextbook/}から得ることができます。(2014年10月現在)
