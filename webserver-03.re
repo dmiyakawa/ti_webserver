@@ -442,14 +442,21 @@ jsonモジュールを使うには「import json」とします。
 一見、入力したデータとjson.dumps()関数の結果がそっくり同じに見えますが、
 よく見ると関数の出力結果は「文字列」です。
 Pythonのデータ構造とJSONフォーマットの文字列データは一見してよく似ています。
-@<fn>{about_json}
-
-//footnote[about_json][JSONデータはもともとJavaScriptという別の言語に由来しており、Pythonのデータ構造とピタリ一致しているわけではありません。]
 
 Python 2.7の持つライブラリの内容は
 @<href>{http://docs.python.jp/2.7/library/index.html}から参照できます。
 特に、jsonモジュールの説明は@<href>{http://docs.python.jp/2.7/library/json.html}にあります。
 
+モジュール内の一部だけインポートしたいことがあります。
+今回の範囲ではxml.sax.saxutilsモジュールのespace()関数を使う例がありますが、
+毎回「xml.sax.saxutils.escape()」と書くのは面倒なので、
+以下のように書いています
+
+//emlist[モジュール部分の指定を省略できるようにしている]{
+from xml.sax.saxutils import escape
+//}
+
+Pythonモジュールのインポート方法の詳細は、@<href>{http://docs.python.jp/2/tutorial/modules.html}などを参照してください。
 
 == シラバスアプリのインポート
 
@@ -541,8 +548,7 @@ Eclipseで「File >> New >> Project...」を選択します。
 //image[import_syllabus_eclipse_8][]{
 //}
 
-この時点で第10章「ユーティリティによる実践」のシラバスアプリの完成版
-を利用できるようになります。
+これで、第10章「ユーティリティによる実践」のシラバスアプリの完成版を利用できるようになります。
 
 
 == Windows 8.1 でのバックアップの仕方
