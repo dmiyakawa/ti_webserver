@@ -25,9 +25,9 @@ description:
 # coverfile: カバーページのbody要素内に挿入する内容を記述したファイル名
 coverfile: _cover.html
 # coverimage: 表紙用画像ファイル
-coverimage: cover.jpg
+# coverimage: cover.jpg
 # 固有IDに使用するドメイン
-urnid: http://tatsu-zine.com/books/review-sample-book/1.0.0/
+# urnid: http://tatsu-zine.com/books/review-sample-book/1.0.0/
 # CSSファイル (yamlファイルおよびRe:VIEWファイルを置いたディレクトリにあること
 stylesheet: style.css
 # 目次として抽出するレベル
