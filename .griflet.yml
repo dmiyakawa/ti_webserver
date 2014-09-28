@@ -1,6 +1,4 @@
 specs: 
   - pdf
   - html
-  - name: html-tb
-    catalog_file: catalog.tb.yml
   - text
