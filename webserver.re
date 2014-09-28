@@ -196,7 +196,7 @@ PythonやGAEの習得が目的ではないので、
 
 //footnote[about_additional_material][念の為、Python言語自体の説明を別の節(？)に分けて教科書に収録しました。]
 
-==== 本演習を行う上での注意事項
+=== 本演習を行う上での注意事項
 
 本演習では、実装したWebサーバを全世界に公開します。
 Googleアカウントによるログインを除いて、
@@ -209,7 +209,7 @@ Windows 8.1の場合について次節の
 に記載があります。
 
 
-==== Python実行環境のインストール
+=== Python実行環境のインストール
 
 GAEを用いてWebサーバを開発するために、
 まずPython実行環境をPCへインストールします。
@@ -267,7 +267,7 @@ Windows画面左下の開始ボタンを押して「コマンド プロンプト
 //image[python-prompt][Pythonプロンプトの実行例]{
 //}
 
-==== Google App Engine SDKのインストール
+=== Google App Engine SDKのインストール
 
 次に、Google App EngineのPython SDKをインストールします。
 以下のURLを開いてください。
@@ -331,7 +331,7 @@ GAE SDKのインストールに成功しています。
 //footnote[if_using_japanese_name][Windows 8等で日本語ユーザ名になっている場合、ここからさらに作業が必要です。〜「ユーザフォルダに日本語が含まれる場合のGAEインストールの追加作業」を参照してください。]
 
 
-==== ローカルサーバでHello World!
+=== ローカルサーバでHello World!
 
 GAEのプロジェクトを作成し、"Hello world!"と表示するだけの
 Webサーバを作成しましょう。
@@ -386,7 +386,7 @@ Google App Engine Launcherで「File >> Create New Application」を選択しま
 この"Hello world!"を表示するまでに、プログラムを1行も書く必要がありませんでした。
 ちょっと物足りなすぎです。
 
-==== PyCharm Community Edition のインストール
+=== PyCharm Community Edition のインストール
 
 ここから、Pythonでプログラムを書いてサーバを拡張するのですが、
 Windows付属のメモ帳は文字コードの特に改行コードの処理などに難点があるため、
@@ -490,7 +490,7 @@ PyCharmは同じく統合開発環境であるEclipseと似た外見をしてい
 プログラミングに自信があれば、このままGAEによるWebサーバの実装を進めましょう。
 
 
-==== Hello Worldサーバへブラウザからアクセスする
+=== Hello Worldサーバへブラウザからアクセスする
 
 「Hello world!」以外の文字列を出力してみましょう。
 PyCharmの画面左、「helloworld」となっている部分をクリックし、
@@ -533,7 +533,7 @@ app = webapp2.WSGIApplication([
 helloworld.pyの内容を変更してファイルを保存後、
 GAE Launcherで再びローカルサーバを起動して変更を確認してみましょう。
 
-==== Hello World!プログラムの意味
+=== Hello World!プログラムの意味
 
 Pythonプログラミングに関する部分を除くと、
 今回のプログラムの意味はおおよそ次のとおりになります。
@@ -604,7 +604,7 @@ application = webapp2.WSGIApplication([
 「Hello world!」が再び表示されるようになるはずです。
 
 
-==== HTTPのステータスコードについて
+=== HTTPのステータスコードについて
 
 「404 Not Found」は普通のWebブラウジングでも見たことがあるかもしれません。
 HTTPというプロトコルつまりルールで、サーバはそのリクエストに対応する
@@ -637,7 +637,7 @@ GitHubのように見た目の異なる404画面を表示させることもで�
 今回は割愛します。
 GAE Pythonでのレスポンスを操作する際の詳細は、例えば@<href>{https://cloud.google.com/appengine/docs/python/tools/webapp/redirects}を参照してください。
 
-==== 世界にHello World!
+=== 世界にHello World!
 
 Google App Engineの便利なところは、
 この時点ですでに、世界へWebアプリケーションを公開する準備がほぼできていることです。
@@ -704,7 +704,7 @@ GAE Consoleで「Deploy」ボタンを押すとユーザ名とパスワードを
 せっかくですから、隣の人に自分のWebサーバを見てもらってはいかがでしょうか。
 
 
-==== ログ出力方法
+=== ログ出力方法
 
 PythonでもAndroidにおけるLogCatと似たようなログ機構を実装できます。
 以下にloggingモジュールを用いた"Hello world!"の例を示します。
@@ -727,7 +727,7 @@ class MainHandler(webapp2.RequestHandler):
 
 //footnote[about_python_logging][Pythonのloggingについて詳細に学びたいは、まず@<href>{http://docs.python.jp/2/howto/logging.html#logging-basic-tutorial}を読むことから始めると良いでしょう。]
 
-==== 本番サーバのダッシュボードとリソース割り当てについて
+=== 本番サーバのダッシュボードとリソース割り当てについて
 
 GAE Launcherには「Dashboard」というボタンもあります。
 このボタンを押すと、本番サーバの管理者画面をブラウザに表示してくれます。
@@ -1302,7 +1302,7 @@ class CreateCourse(webapp2.RequestHandler):
 実際に使うのであれば編集と削除機能が必要なところですが、
 演習の本質から外れてしまうので演習課題としましょう。
 
-====[column] なぜ更新はPOSTリクエストで行うのか
+===[column] なぜ更新はPOSTリクエストで行うのか
 
 HTTPにはGETとPOST以外にも他にもリクエストメソッドがありますが、
 本節ではGETとPOSTについてだけ説明しています。
@@ -1340,7 +1340,7 @@ HTTPを含めて、Webサーバを取り巻く仕様は、
 シンプルなようでいて実は非常に混乱を招きやすく複雑であることがしばしばです。
 さらに言えば、クライアントやサーバが仕様とは異なる挙動を示すことすらあります。
 
-====[/column]
+===[/column]
 
 === セキュリティ
 
@@ -1639,11 +1639,25 @@ jinja2テンプレートエンジンが採用している
 
 時間があれば、講義作成画面も、テンプレートを使って見栄えを変えてみましょう。
 
+=== 今後の学習について
+
+本章では、Androidアプリ開発者がWebサーバを理解するための入り口と、
+より本格的に開発する上で必要な要素についても少し紹介しました。
+
+Androidアプリ開発者としては、
+Webサーバの全ての要素を理解する必要はありませんが、
+知っている方がサーバとのやりとりを実装する上での落とし穴にははまりにくくなるでしょう。
+
+参考まで、Tech Boosterによる「Android Open Textbook Project」
+(@<href>{https://github.com/TechBooster/AndroidOpenTextbook})
+に、本章学習後に学ぶべきやや詳細なトピックを扱った内容を含めています。
+なお、最新版のPDF版やHTML版は、
+@<href>{https://tcb.mowa-net.jp/griflet/github/TechBooster/AndroidOpenTextbook/}から得ることができます。(2014年10月現在)
+
 == 付録
 
 //lead{
 本節では、授業で用いる範囲で有用と思われるトピックを学びます。
-授業の補助資料として利用してください。
 //}
 
 === Pythonを学ぶ
@@ -2302,18 +2316,3 @@ NAT(Network Address Translation)と呼ばれる技術によって、
 インターネットと内部のネットワークが分断されています。
 そういった状況でのIPアドレスはインターネットからは見えないため、
 「世界に公開」していることにもなりません。
-
-== おわりに
-
-本章では、Androidアプリ開発者がWebサーバを理解するための入り口と、
-より本格的に開発する上で必要な要素についても少し紹介しました。
-
-Androidアプリ開発者としては、
-Webサーバの全ての要素を理解する必要はありませんが、
-知っている方がサーバとのやりとりを実装する上での落とし穴にははまりにくくなるでしょう。
-
-参考まで、Tech Boosterによる「Android Open Textbook Project」
-(@<href>{https://github.com/TechBooster/AndroidOpenTextbook})
-に、本章学習後に学ぶべきやや詳細なトピックを扱った内容を含めています。
-なお、最新版のPDF版やHTML版は、
-@<href>{https://tcb.mowa-net.jp/griflet/github/TechBooster/AndroidOpenTextbook/}から得ることができます。(2014年10月現在)
