@@ -11,6 +11,16 @@ def build_all(mode)
   sh "review-compile --all --target=#{mode} --footnotetext --stylesheet=style.css"
 end
 
+def clean()
+  sh "rm -rf webserver-pdf webserver.pdf"
+  sh "rm -f webserver.txt webserver.html"
+end
+
+def build_pdf()
+  clean()
+  sh "review-pdfmaker config.yml"
+end
+
 desc "build html (Usage: rake build re=target.re)"
 task :html do
   if ENV['re'].nil?
@@ -30,13 +40,12 @@ task :text_all do
   build_all("text")
 end
 
-task :default => 'book.pdf'
-
-file 'book.pdf' => ['config.yml', 'ti_webserver.re'] do
-  sh "rm -rf book-pdf book.pdf"
-  sh "review-pdfmaker config.yml"
+file 'webserver.pdf' => ['config.yml', 'webserver.re'] do
+  build_pdf()
 end
 
+
+task :default => 'webserver.pdf'
 task :clean do
-  sh "rm -rf book-pdf book.pdf"
+  clean()
 end
