@@ -25,6 +25,11 @@ task :html_all do
   build_all("html")
 end
 
+desc "build all text"
+task :text_all do
+  build_all("text")
+end
+
 task :default => 'book.pdf'
 
 file 'book.pdf' => ['config.yml', 'ti_webserver.re'] do
