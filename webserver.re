@@ -14,12 +14,11 @@ Androidアプリにデータを提供するWebサーバの側の技術を学び�
 
 この節で出てくるキーワード
 
- * Webサーバ
- * IaaS, PaaS, SaaS
- * Google App Engine (GAE)
+ * Webサーバ、クライアント、リソース
+ * IaaS, PaaS, SaaS, Google App Engine (GAE)
  * Python, PyCharm Community Edition
- * HTTP, GETリクエスト, POSTリクエスト,
- * HTML
+ * HTTP, GETリクエスト, POSTリクエスト
+ * webapp2, RequestHandler
 
 本節では、Androidアプリが通信する「Webサーバ」について学びます。
 「Webサーバ」とは何かを知った後、
@@ -773,9 +772,12 @@ Puttyがインストール済みであれば、実際にHello Worldサーバへ�
 
 === この節で学ぶこと
 
- * JSON
- * HTTPのGETリクエストとPOSTリクエスト
+ * Content-Type
+ * JSON, HTML
+ * RFC
  * クロスサイト・スクリプティング (XSS)
+ * テンプレートエンジン, jinja2
+ * スタイルシート (CSS), bootstrap,
  * HTTPS
 
 前節では「Hello Worldサーバ」を作成し、メッセージを変更するところまで
@@ -1648,7 +1650,6 @@ jinja2テンプレートエンジンが採用している
 という方式の方が、安全なプログラミングとしては、より適切と言えます。
 
 
-
 === 今後の学習リソース
 
 本章では、Androidアプリ開発者がWebサーバを理解するための入り口と、
@@ -1692,6 +1693,13 @@ Androidアプリ開発者としては得るものは多いでしょう。
 //lead{
 本節では、授業で用いる範囲で有用と思われるトピックを学びます。
 //}
+
+=== この節で学ぶこと
+
+ * Pythonの基本
+ * シラバスアプリのインポート
+ * Windows8 における
+ * Wi-Fi内でのWebサーバの公開方法
 
 === Pythonを学ぶ
 
